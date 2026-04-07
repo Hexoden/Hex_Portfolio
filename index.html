@@ -7,6 +7,8 @@
     <meta name="description" content="Portfolio for Hexoden, a student developer focused on full stack apps, software engineering, creative builds, and game development.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.simpleicons.org">
+    <link rel="preconnect" href="https://img.icons8.com">
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <script src="accessibility.js"></script>
     <style>
@@ -1218,7 +1220,7 @@
             <div class="hero reveal">
                 <div class="hero-layout">
                     <figure class="hero-profile">
-                        <img src="Media/Pictures/selfportrait-pixel.png" alt="Pixel self-portrait of Hexoden">
+                        <img src="Media/Pictures/selfportrait-pixel.png" alt="Pixel self-portrait of Hexoden" fetchpriority="high" decoding="async">
                         <figcaption>Self Portrait</figcaption>
                     </figure>
                     <div>
@@ -1261,7 +1263,7 @@
             </div>
             <div class="media-grid">
                 <article class="media-card">
-                    <video controls muted loop playsinline poster="Media/Pictures/game-screenshot.png">
+                    <video controls muted loop playsinline preload="metadata" poster="Media/Pictures/game-screenshot.png">
                         <source src="Media/Videos/Game-Grab.mp4" type="video/mp4">
                     </video>
                     <div class="media-info">
@@ -1271,14 +1273,14 @@
                 </article>
                 <div class="media-stack">
                     <article class="media-card hover-caption">
-                        <img class="enlargeable js-enlarge" src="Media/Pictures/statemachine-screenshot.png" alt="State machine coding screenshot" data-fullsrc="Media/Pictures/statemachine-screenshot.png">
+                        <img class="enlargeable js-enlarge" src="Media/Pictures/statemachine-screenshot.png" alt="State machine coding screenshot" data-fullsrc="Media/Pictures/statemachine-screenshot.png" loading="lazy" decoding="async">
                         <div class="media-info">
                             <h3>State Machine Work</h3>
                             <p>Screenshot from gameplay logic code handling animation and state transitions.</p>
                         </div>
                     </article>
                     <article class="media-card hover-caption">
-                        <img class="enlargeable js-enlarge" src="Media/Pictures/remote-mapping.png" alt="Peripheral control mapping screenshot" data-fullsrc="Media/Pictures/remote-mapping.png">
+                        <img class="enlargeable js-enlarge" src="Media/Pictures/remote-mapping.png" alt="Peripheral control mapping screenshot" data-fullsrc="Media/Pictures/remote-mapping.png" loading="lazy" decoding="async">
                         <div class="media-info">
                             <h3>Peripheral Controls Map</h3>
                             <p>Mapping layout for Xbox-style peripheral controls used for gameplay actions and testing.</p>
@@ -1288,23 +1290,23 @@
             </div>
             <div class="art-gallery">
                 <figure class="art-tile">
-                    <img class="enlargeable js-enlarge" src="Media/Pictures/game-screenshot.png" alt="In-game screenshot" data-fullsrc="Media/Pictures/game-screenshot.png">
+                    <img class="enlargeable js-enlarge" src="Media/Pictures/game-screenshot.png" alt="In-game screenshot" data-fullsrc="Media/Pictures/game-screenshot.png" loading="lazy" decoding="async">
                     <figcaption>Gameplay Screenshot</figcaption>
                 </figure>
                 <figure class="art-tile">
-                    <img src="Media/Pictures/mace-design.png" alt="Mace concept art">
+                    <img src="Media/Pictures/mace-design.png" alt="Mace concept art" loading="lazy" decoding="async">
                     <figcaption>Weapon Design</figcaption>
                 </figure>
                 <figure class="art-tile">
-                    <img src="Media/Pictures/pixel-frog.png" alt="Pixel frog artwork">
+                    <img src="Media/Pictures/pixel-frog.png" alt="Pixel frog artwork" loading="lazy" decoding="async">
                     <figcaption>Pixel Frog</figcaption>
                 </figure>
                 <figure class="art-tile">
-                    <img src="Media/Pictures/idlefrogstaff(1).png" alt="Idle frog staff sprite">
+                    <img src="Media/Pictures/idlefrogstaff(1).png" alt="Idle frog staff sprite" loading="lazy" decoding="async">
                     <figcaption>Idle Sprite</figcaption>
                 </figure>
                 <figure class="art-tile">
-                    <img src="Media/Pictures/frogwalkleftv1.png" alt="Walking frog sprite">
+                    <img src="Media/Pictures/frogwalkleftv1.png" alt="Walking frog sprite" loading="lazy" decoding="async">
                     <figcaption>Walk Cycle Frame</figcaption>
                 </figure>
             </div>
@@ -1487,26 +1489,26 @@
             </div>
             <div class="panel">
                 <div class="toolkit-grid" aria-label="Technology toolkit">
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/HTML5/00ff88" alt="HTML5"><span>HTML5</span></div>
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/CSS/A100FF" alt="CSS3"><span>CSS3</span></div>
-                    <div class="toolkit-tile"><img src="https://img.icons8.com/?size=100&id=2572&format=png&color=00ff88" alt="Java"><span>Java</span></div>
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/JavaScript/A100FF" alt="JavaScript"><span>JavaScript</span></div>
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/TypeScript/00ff88" alt="TypeScript"><span>TypeScript</span></div>
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/React/A100FF" alt="React"><span>React</span></div>
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/Gamemaker/00ff88" alt="GameMaker"><span>GameMaker</span></div>
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/Portainer/A100FF" alt="Portainer"><span>Portainer</span></div>
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/Python/00ff88" alt="Python"><span>Python</span></div>
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/git/A100FF" alt="Git"><span>Git</span></div>
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/github/A100FF" alt="GitHub"><span>GitHub</span></div>
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/wordpress/00ff88" alt="WordPress"><span>WP</span></div>
-                    <div class="toolkit-tile"><img src="https://img.icons8.com/?size=100&id=9t5UEEYXq0ZS&format=png&color=A100FF" alt="Visual Studio Code"><span>VS Code</span></div>
-                    <div class="toolkit-tile"><img src="https://img.icons8.com/?size=100&id=121602&format=png&color=00ff88" alt="Visual Studio"><span>VS</span></div>
-                    <div class="toolkit-tile"><img src="https://img.icons8.com/?size=100&id=38796&format=png&color=A100FF" alt="Linux"><span>Linux</span></div>
-                    <div class="toolkit-tile"><img src="https://img.icons8.com/?size=100&id=22801&format=png&color=00ff88" alt="Docker"><span>Docker</span></div>
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/Proxmox/A100FF" alt="Proxmox"><span>Proxmox</span></div>
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/opensourceinitiative/00ff88" alt="Open Source Initiative"><span>Open Source</span></div>
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/Proton/A100FF" alt="Proton"><span>Proton</span></div>
-                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/raspberrypi/00ff88" alt="Raspberry Pi"><span>Raspberry Pi</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/HTML5/00ff88" alt="HTML5" loading="lazy" decoding="async"><span>HTML5</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/CSS/A100FF" alt="CSS3" loading="lazy" decoding="async"><span>CSS3</span></div>
+                    <div class="toolkit-tile"><img src="https://img.icons8.com/?size=100&id=2572&format=png&color=00ff88" alt="Java" loading="lazy" decoding="async"><span>Java</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/JavaScript/A100FF" alt="JavaScript" loading="lazy" decoding="async"><span>JavaScript</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/TypeScript/00ff88" alt="TypeScript" loading="lazy" decoding="async"><span>TypeScript</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/React/A100FF" alt="React" loading="lazy" decoding="async"><span>React</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/Gamemaker/00ff88" alt="GameMaker" loading="lazy" decoding="async"><span>GameMaker</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/Portainer/A100FF" alt="Portainer" loading="lazy" decoding="async"><span>Portainer</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/Python/00ff88" alt="Python" loading="lazy" decoding="async"><span>Python</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/git/A100FF" alt="Git" loading="lazy" decoding="async"><span>Git</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/github/A100FF" alt="GitHub" loading="lazy" decoding="async"><span>GitHub</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/wordpress/00ff88" alt="WordPress" loading="lazy" decoding="async"><span>WP</span></div>
+                    <div class="toolkit-tile"><img src="https://img.icons8.com/?size=100&id=9t5UEEYXq0ZS&format=png&color=A100FF" alt="Visual Studio Code" loading="lazy" decoding="async"><span>VS Code</span></div>
+                    <div class="toolkit-tile"><img src="https://img.icons8.com/?size=100&id=121602&format=png&color=00ff88" alt="Visual Studio" loading="lazy" decoding="async"><span>VS</span></div>
+                    <div class="toolkit-tile"><img src="https://img.icons8.com/?size=100&id=38796&format=png&color=A100FF" alt="Linux" loading="lazy" decoding="async"><span>Linux</span></div>
+                    <div class="toolkit-tile"><img src="https://img.icons8.com/?size=100&id=22801&format=png&color=00ff88" alt="Docker" loading="lazy" decoding="async"><span>Docker</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/Proxmox/A100FF" alt="Proxmox" loading="lazy" decoding="async"><span>Proxmox</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/opensourceinitiative/00ff88" alt="Open Source Initiative" loading="lazy" decoding="async"><span>Open Source</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/Proton/A100FF" alt="Proton" loading="lazy" decoding="async"><span>Proton</span></div>
+                    <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/raspberrypi/00ff88" alt="Raspberry Pi" loading="lazy" decoding="async"><span>Raspberry Pi</span></div>
                 </div>
                 <p class="toolkit-legend">This toolkit reflects how I build: open-source first, self-hosted where it makes sense, and tuned for full stack work, game dev, and homelab systems. This list is not exhaustive.</p>
             </div>
