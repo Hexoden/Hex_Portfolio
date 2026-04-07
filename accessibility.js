@@ -511,6 +511,7 @@ html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="
     margin: 0.35rem 0 0.75rem !important;
     color: var(--text) !important;
     text-decoration: underline !important;
+    cursor: pointer !important;
     pointer-events: auto !important;
     position: relative !important;
     z-index: 3 !important;
@@ -803,6 +804,9 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
         link.target = "_blank";
         link.rel = "noopener noreferrer";
         link.textContent = label;
+        link.addEventListener("click", (event) => {
+            event.stopPropagation();
+        }, true);
         insertionTarget.insertAdjacentElement("afterend", link);
     }
 
