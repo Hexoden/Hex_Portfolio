@@ -1,7 +1,7 @@
-const CACHE_VERSION = "hexoden-cache-v10";
-const RUNTIME_CACHE = "hexoden-runtime-v10";
-const ASSET_CACHE = "hexoden-assets-v10";
-const MEDIA_CACHE = "hexoden-media-v10";
+const CACHE_VERSION = "hexoden-cache-v11";
+const RUNTIME_CACHE = "hexoden-runtime-v11";
+const ASSET_CACHE = "hexoden-assets-v11";
+const MEDIA_CACHE = "hexoden-media-v11";
 
 const PRECACHE_URLS = [
     "./",
@@ -14,10 +14,10 @@ const PRECACHE_URLS = [
     "./digital-sovereignty-report.html",
     "./code-snippets.js",
     "./christopher-ai-logo.svg",
-    "./Media/Pictures/selfportrait-pixel.png",
-    "./Media/Pictures/game-screenshot.png",
-    "./Media/Pictures/statemachine-screenshot.png",
-    "./Media/Pictures/remote-mapping.png"
+    "./Media/Pictures/selfportrait-pixel.webp",
+    "./Media/Pictures/game-screenshot.webp",
+    "./Media/Pictures/statemachine-screenshot.webp",
+    "./Media/Pictures/remote-mapping.webp"
 ];
 
 self.addEventListener("install", (event) => {

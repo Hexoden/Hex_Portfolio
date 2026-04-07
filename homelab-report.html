@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Lab Build Log | Small Iterations, Shipped Often</title>
     <meta name="description" content="Personal home lab build log covering stack choices, reliability, security, and what I am iterating on next.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.simpleicons.org">
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <script src="accessibility.js"></script>
     <style>
         :root {
@@ -351,50 +347,50 @@
             <div class="deploy-map" aria-label="Homelab deployment map">
                 <div class="deploy-lane">
                     <article class="deploy-node">
-                        <h3><img src="https://cdn.simpleicons.org/tplink/00b7ff" alt="Router icon" loading="lazy" decoding="async"> LAN Core</h3>
+                        <h3><img src="Media/Icons/homelab-tplink.png" alt="Router icon" loading="lazy" decoding="async"> LAN Core</h3>
                         <p>Router, DNS, and local network pathing for all homelab nodes.</p>
                         <div class="service-badges">
-                            <span class="service-chip"><img src="https://cdn.simpleicons.org/tplink/00b7ff" alt="TP-Link icon" loading="lazy" decoding="async">Router</span>
-                            <span class="service-chip"><img src="https://cdn.simpleicons.org/cloudflare/ff9f1c" alt="DNS icon" loading="lazy" decoding="async">DNS</span>
+                            <span class="service-chip"><img src="Media/Icons/homelab-tplink.png" alt="TP-Link icon" loading="lazy" decoding="async">Router</span>
+                            <span class="service-chip"><img src="Media/Icons/homelab-cloudflare.png" alt="DNS icon" loading="lazy" decoding="async">DNS</span>
                         </div>
                     </article>
                     <span class="deploy-arrow">--></span>
                     <article class="deploy-node">
-                        <h3><img src="https://cdn.simpleicons.org/proxmox/E57000" alt="Proxmox icon" loading="lazy" decoding="async"> Proxmox Host</h3>
+                        <h3><img src="Media/Icons/homelab-proxmox.png" alt="Proxmox icon" loading="lazy" decoding="async"> Proxmox Host</h3>
                         <p>Main virtualization node running the container VM and service orchestration.</p>
                         <div class="service-badges">
-                            <span class="service-chip"><img src="https://cdn.simpleicons.org/proxmox/E57000" alt="Proxmox icon" loading="lazy" decoding="async">Proxmox</span>
-                            <span class="service-chip"><img src="https://cdn.simpleicons.org/nvidia/76B900" alt="NVIDIA icon" loading="lazy" decoding="async">GPU Pass</span>
+                            <span class="service-chip"><img src="Media/Icons/homelab-proxmox.png" alt="Proxmox icon" loading="lazy" decoding="async">Proxmox</span>
+                            <span class="service-chip"><img src="Media/Icons/homelab-nvidia.png" alt="NVIDIA icon" loading="lazy" decoding="async">GPU Pass</span>
                         </div>
                     </article>
                     <span class="deploy-arrow">--></span>
                     <article class="deploy-node">
-                        <h3><img src="https://cdn.simpleicons.org/ubuntu/E95420" alt="Ubuntu icon" loading="lazy" decoding="async"> Docker VM</h3>
+                        <h3><img src="Media/Icons/homelab-ubuntu.png" alt="Ubuntu icon" loading="lazy" decoding="async"> Docker VM</h3>
                         <p>Container runtime for media, automation stack, dashboards, and AI workflows.</p>
                         <div class="service-badges">
-                            <span class="service-chip"><img src="https://cdn.simpleicons.org/docker/2496ED" alt="Docker icon" loading="lazy" decoding="async">Docker</span>
-                            <span class="service-chip"><img src="https://cdn.simpleicons.org/jellyfin/00A4DC" alt="Jellyfin icon" loading="lazy" decoding="async">Jellyfin</span>
-                            <span class="service-chip"><img src="https://cdn.simpleicons.org/radarr/FAC600" alt="Arr stack icon" loading="lazy" decoding="async">Arr Stack</span>
+                            <span class="service-chip"><img src="Media/Icons/homelab-docker.png" alt="Docker icon" loading="lazy" decoding="async">Docker</span>
+                            <span class="service-chip"><img src="Media/Icons/homelab-jellyfin.png" alt="Jellyfin icon" loading="lazy" decoding="async">Jellyfin</span>
+                            <span class="service-chip"><img src="Media/Icons/homelab-radarr.png" alt="Arr stack icon" loading="lazy" decoding="async">Arr Stack</span>
                         </div>
                     </article>
                 </div>
 
                 <div class="deploy-lane">
                     <article class="deploy-node">
-                        <h3><img src="https://cdn.simpleicons.org/raspberrypi/A22846" alt="Raspberry Pi icon" loading="lazy" decoding="async"> Storage Edge</h3>
+                        <h3><img src="Media/Icons/homelab-raspberrypi.png" alt="Raspberry Pi icon" loading="lazy" decoding="async"> Storage Edge</h3>
                         <p>Raspberry Pi shares media and notes data into the VM over SMB.</p>
                         <div class="service-badges">
-                            <span class="service-chip"><img src="https://cdn.simpleicons.org/raspberrypi/A22846" alt="Raspberry Pi icon" loading="lazy" decoding="async">Raspberry Pi</span>
-                            <span class="service-chip"><img src="https://cdn.simpleicons.org/samba/13E0E4" alt="SMB icon" loading="lazy" decoding="async">SMB</span>
+                            <span class="service-chip"><img src="Media/Icons/homelab-raspberrypi.png" alt="Raspberry Pi icon" loading="lazy" decoding="async">Raspberry Pi</span>
+                            <span class="service-chip"><img src="Media/Icons/homelab-samba.png" alt="SMB file sharing icon" loading="lazy" decoding="async">SMB File Sharing</span>
                         </div>
                     </article>
                     <span class="deploy-arrow">sync</span>
                     <article class="deploy-node">
-                        <h3><img src="https://cdn.simpleicons.org/infomaniak/009CFF" alt="Cloud icon" loading="lazy" decoding="async"> Cloud Extension</h3>
+                        <h3><img src="Media/Icons/homelab-infomaniak.png" alt="Cloud icon" loading="lazy" decoding="async"> Cloud Extension</h3>
                         <p>Offsite storage and remote services for continuity and archive workflows.</p>
                         <div class="service-badges">
-                            <span class="service-chip"><img src="https://cdn.simpleicons.org/infomaniak/009CFF" alt="Infomaniak icon" loading="lazy" decoding="async">VPS</span>
-                            <span class="service-chip"><img src="https://cdn.simpleicons.org/nextcloud/0082C9" alt="Cloud storage icon" loading="lazy" decoding="async">Archive</span>
+                            <span class="service-chip"><img src="Media/Icons/homelab-infomaniak.png" alt="Infomaniak icon" loading="lazy" decoding="async">VPS</span>
+                            <span class="service-chip"><img src="Media/Icons/homelab-nextcloud.png" alt="Cloud storage icon" loading="lazy" decoding="async">Archive</span>
                         </div>
                     </article>
                 </div>

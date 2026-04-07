@@ -160,7 +160,7 @@ window.CODE_SNIPPETS = [
     "const queue = []; while (queue.length) run(queue.shift());",
     "const lockAcquired = await mutex.acquire();",
     "if (lockAcquired) await criticalSection();",
-    "const fallbackImage = '/Media/Pictures/game-screenshot.png';",
+    "const fallbackImage = '/Media/Pictures/game-screenshot.webp';",
     "if (!img.complete) img.src = fallbackImage;",
     "const observer = new IntersectionObserver(onReveal, { threshold: 0.2 });",
     "for (const card of cards) observer.observe(card);",
