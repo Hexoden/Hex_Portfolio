@@ -849,11 +849,20 @@
             gap: 1rem;
         }
 
+        .media-stack {
+            display: grid;
+            gap: 1rem;
+        }
+
         .media-card {
             background: linear-gradient(160deg, rgba(15, 20, 35, 0.9), rgba(11, 15, 27, 0.9));
             border: 1px solid rgba(149, 201, 255, 0.25);
             border-radius: 16px;
             overflow: hidden;
+        }
+
+        .media-card.hover-caption {
+            position: relative;
         }
 
         .media-card video,
@@ -870,6 +879,10 @@
 
         .media-card img {
             aspect-ratio: 16 / 10;
+        }
+
+        .media-card.hover-caption img {
+            aspect-ratio: 16 / 9;
         }
 
         .enlargeable {
@@ -889,6 +902,33 @@
             margin: 0;
             font-size: 0.86rem;
             color: var(--muted);
+        }
+
+        .media-card.hover-caption .media-info {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 0.8rem 0.9rem 0.95rem;
+            background: linear-gradient(180deg, rgba(3, 6, 14, 0), rgba(3, 6, 14, 0.94) 45%);
+            transform: translateY(100%);
+            opacity: 0;
+            transition: transform 0.22s ease, opacity 0.22s ease;
+        }
+
+        .media-card.hover-caption:hover .media-info,
+        .media-card.hover-caption:focus-within .media-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        @media (hover: none) {
+            .media-card.hover-caption .media-info {
+                position: static;
+                transform: none;
+                opacity: 1;
+                background: rgba(6, 10, 20, 0.9);
+            }
         }
 
         .art-gallery {
@@ -1227,13 +1267,22 @@
                         <p>Short movement clip demonstrating player feel, control response, and animation transitions.</p>
                     </div>
                 </article>
-                <article class="media-card">
-                    <img class="enlargeable js-enlarge" src="Media/Pictures/statemachine-screenshot.png" alt="State machine coding screenshot" data-fullsrc="Media/Pictures/statemachine-screenshot.png">
-                    <div class="media-info">
-                        <h3>State Machine Work</h3>
-                        <p>Screenshot from gameplay logic code handling animation and state transitions.</p>
-                    </div>
-                </article>
+                <div class="media-stack">
+                    <article class="media-card hover-caption">
+                        <img class="enlargeable js-enlarge" src="Media/Pictures/statemachine-screenshot.png" alt="State machine coding screenshot" data-fullsrc="Media/Pictures/statemachine-screenshot.png">
+                        <div class="media-info">
+                            <h3>State Machine Work</h3>
+                            <p>Screenshot from gameplay logic code handling animation and state transitions.</p>
+                        </div>
+                    </article>
+                    <article class="media-card hover-caption">
+                        <img class="enlargeable js-enlarge" src="Media/Pictures/remote-mapping.png" alt="Peripheral control mapping screenshot" data-fullsrc="Media/Pictures/remote-mapping.png">
+                        <div class="media-info">
+                            <h3>Peripheral Controls Map</h3>
+                            <p>Mapping layout for Xbox-style peripheral controls used for gameplay actions and testing.</p>
+                        </div>
+                    </article>
+                </div>
             </div>
             <div class="art-gallery">
                 <figure class="art-tile">
