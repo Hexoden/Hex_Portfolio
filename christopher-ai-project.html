@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christopher AI | Project</title>
+    <meta name="description" content="Project page for Christopher AI, a self-hosted local-first AI platform.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #05060c;
+            --surface: rgba(16, 20, 34, 0.82);
+            --line: rgba(152, 201, 255, 0.22);
+            --text: #e7efff;
+            --muted: #a9b7d8;
+            --cyan: #3be3cf;
+            --amber: #ffbf69;
+            --magenta: #ff6ad5;
+            --electric-green: #13ff71;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Sora", "Segoe UI", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 85% 10%, rgba(255, 106, 213, 0.15), transparent 35%),
+                radial-gradient(circle at 8% 80%, rgba(59, 227, 207, 0.15), transparent 34%),
+                linear-gradient(140deg, #05060c 0%, #060a14 55%, #04050b 100%);
+            min-height: 100vh;
+            line-height: 1.62;
+            overflow-x: hidden;
+        }
+
+        .code-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+            opacity: 0.9;
+            transition: opacity 0.22s ease;
+        }
+
+        .code-line {
+            position: absolute;
+            font-family: "Chakra Petch", "Consolas", monospace;
+            font-size: clamp(0.62rem, 1.05vw, 0.88rem);
+            color: var(--electric-green);
+            opacity: 0;
+            white-space: nowrap;
+            letter-spacing: 0.03em;
+            text-shadow: 0 0 8px rgba(19, 255, 113, 0.66), 0 0 16px rgba(19, 255, 113, 0.35);
+            transform: translateY(4px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            user-select: none;
+        }
+
+        .code-line.visible {
+            opacity: 0.64;
+            transform: translateY(0);
+        }
+
+        .code-line.fading {
+            opacity: 0;
+            transform: translateY(-6px);
+        }
+
+        .wrap {
+            width: min(1020px, 92vw);
+            margin: 0 auto;
+            padding: 2rem 0 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            font-family: "Chakra Petch", sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        .back-link,
+        .repo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.55rem 0.82rem;
+            border-radius: 11px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.04);
+            color: #e8f0ff;
+            text-decoration: none;
+            font-size: 0.88rem;
+        }
+
+        .hero {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: clamp(1.2rem, 3.8vw, 2rem);
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.22rem 0.55rem;
+            font-size: 0.74rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.75rem;
+        }
+
+        h1 {
+            font-family: "Chakra Petch", sans-serif;
+            font-size: clamp(1.7rem, 4.6vw, 3rem);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        p { color: var(--muted); margin-bottom: 0.85rem; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1.35fr 0.65fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 1rem;
+        }
+
+        .panel h2 {
+            font-family: "Chakra Petch", sans-serif;
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+        }
+
+        ul { list-style: none; display: grid; gap: 0.4rem; }
+
+        li::before {
+            content: "> ";
+            color: var(--cyan);
+        }
+
+        .screens {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(200px, 1fr));
+            gap: 0.8rem;
+        }
+
+        figure {
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            background: rgba(6, 8, 17, 0.8);
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+        }
+
+        figcaption {
+            font-size: 0.78rem;
+            color: #c9d7f6;
+            padding: 0.5rem 0.6rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .highlight { color: #ffe2af; }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .story-card {
+            background: rgba(8, 12, 22, 0.88);
+            border: 1px solid rgba(152, 201, 255, 0.18);
+            border-radius: 16px;
+            padding: 1rem;
+        }
+
+        .story-card h2 {
+            font-family: "Chakra Petch", sans-serif;
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+        }
+
+        .story-card p {
+            margin-bottom: 0.6rem;
+        }
+
+        .story-card ul {
+            list-style: none;
+            display: grid;
+            gap: 0.4rem;
+            color: #dbe6ff;
+            font-size: 0.92rem;
+        }
+
+        .story-card li::before {
+            content: "> ";
+            color: var(--cyan);
+        }
+
+        .story-card strong {
+            color: var(--text);
+        }
+
+        .outcome-strip {
+            margin-top: 1rem;
+            padding: 1rem 1.1rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 191, 105, 0.28);
+            background: linear-gradient(135deg, rgba(36, 22, 9, 0.72), rgba(10, 14, 25, 0.9));
+        }
+
+        .outcome-strip h2 {
+            font-family: "Chakra Petch", sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .outcome-strip p {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 860px) {
+            .grid { grid-template-columns: 1fr; }
+            .screens { grid-template-columns: 1fr; }
+            .topbar { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <div class="code-overlay" aria-hidden="true"></div>
+    <main class="wrap">
+        <div class="topbar">
+            <a class="back-link" href="Hexoden-index.html">Back to Portfolio</a>
+            <a class="repo-link" href="https://github.com/" target="_blank" rel="noopener noreferrer">Open Repository</a>
+        </div>
+
+        <section class="hero">
+            <span class="badge">Full Stack AI App</span>
+            <h1>Christopher AI</h1>
+            <p>
+                Christopher AI is a self-hosted, multi-user AI chat platform built for <span class="highlight">local-first privacy</span>. It runs LLM inference on your own hardware and is accessed over your LAN.
+            </p>
+            <p>
+                The project combines a modern frontend, containerized deployment, and practical setup scripts so users can get running with minimal friction.
+            </p>
+        </section>
+
+        <section class="grid">
+            <article class="panel">
+                <h2>What I Built</h2>
+                <ul>
+                    <li>Next.js interface with responsive cyberpunk styling</li>
+                    <li>Profile-based chat sessions and conversation management</li>
+                    <li>Setup scripts for Windows and Linux/macOS workflows</li>
+                    <li>HTTPS LAN access using Caddy and generated certificates</li>
+                </ul>
+            </article>
+
+            <aside class="panel">
+                <h2>Stack</h2>
+                <ul>
+                    <li>Next.js + React + Tailwind</li>
+                    <li>Ollama runtime</li>
+                    <li>Docker Compose</li>
+                    <li>Caddy reverse proxy</li>
+                </ul>
+            </aside>
+        </section>
+
+        <section>
+            <div class="detail-grid">
+                <article class="story-card">
+                    <h2>Why I Built It</h2>
+                    <p>
+                        I wanted a project that combined my interest in full stack engineering with a clear real-world value proposition: private AI chat that works on a local network without forcing cloud dependency.
+                    </p>
+                    <p>
+                        It let me explore UI design, secure user flows, deployment, and practical infrastructure decisions in one cohesive system.
+                    </p>
+                </article>
+                <article class="story-card">
+                    <h2>Key Features</h2>
+                    <ul>
+                        <li>Multi-profile chat experiences with separate histories</li>
+                        <li>Local-first model execution via Ollama</li>
+                        <li>Dockerized deployment for repeatable installs</li>
+                        <li>LAN HTTPS access with generated certificates</li>
+                    </ul>
+                </article>
+                <article class="story-card">
+                    <h2>Technical Notes</h2>
+                    <ul>
+                        <li>Focused on stable startup and predictable setup scripts</li>
+                        <li>Kept the frontend responsive for both desktop and mobile</li>
+                        <li>Used a minimal dependency footprint for easier maintenance</li>
+                        <li>Designed the stack so it can be run by one host machine only</li>
+                    </ul>
+                </article>
+                <article class="story-card">
+                    <h2>What It Shows</h2>
+                    <p>
+                        Christopher AI demonstrates that I can bridge product design, infrastructure, and frontend implementation, while also thinking about privacy and user control.
+                    </p>
+                    <p>
+                        It is also a good example of building something practical rather than just experimental.
+                    </p>
+                </article>
+            </div>
+
+            <div class="outcome-strip">
+                <h2>Outcome</h2>
+                <p>
+                    A fully functional local AI interface that can be hosted on a home network, maintained with Docker, and expanded over time without needing a heavy cloud setup.
+                </p>
+            </div>
+        </section>
+
+        <section class="screens">
+            <figure>
+                <img src="Media/Projects/ChristopherAI/website-screenshot.png" alt="Christopher AI landing page screenshot">
+                <figcaption>Landing page and product presentation</figcaption>
+            </figure>
+            <figure>
+                <img src="Media/Projects/ChristopherAI/chris-chat-screenshot.png" alt="Christopher AI chat interface screenshot">
+                <figcaption>Main chat interface in action</figcaption>
+            </figure>
+        </section>
+    </main>
+
+    <script>
+        const codeOverlay = document.querySelector(".code-overlay");
+        const codeSnippets = [
+            "docker compose up -d --build",
+            "const ai = runLocalModel('ollama');",
+            "fetch('/api/chat').then(streamReply);",
+            "if (https) badge = 'secure';",
+            "profile.encrypt(history, passphrase);",
+            "deploy('lan', { port: 3001 });",
+            "const ui = nextjs.render('cyber-theme');",
+            "if (model.ready) startChat();"
+        ];
+
+        const maxCodeLines = window.matchMedia("(max-width: 720px)").matches ? 8 : 12;
+        let activeCodeLines = 0;
+
+        function randomBetween(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function updateCodeOverlayStrength() {
+            if (!codeOverlay) {
+                return;
+            }
+
+            const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+            const progress = Math.min(window.scrollY / maxScroll, 1);
+            const strength = 0.9 - progress * 0.45;
+            codeOverlay.style.opacity = strength.toFixed(2);
+        }
+
+        function spawnCodeLine(zone) {
+            if (!codeOverlay) {
+                return;
+            }
+
+            const line = document.createElement("span");
+            const snippet = codeSnippets[randomBetween(0, codeSnippets.length - 1)];
+            const minTop = zone?.minTop ?? 6;
+            const maxTop = zone?.maxTop ?? 92;
+            const minLeft = zone?.minLeft ?? 4;
+            const maxLeft = zone?.maxLeft ?? 82;
+
+            line.className = "code-line";
+            line.style.top = randomBetween(minTop, maxTop) + "vh";
+            line.style.left = randomBetween(minLeft, maxLeft) + "vw";
+            line.textContent = "";
+            codeOverlay.appendChild(line);
+            activeCodeLines += 1;
+
+            requestAnimationFrame(() => line.classList.add("visible"));
+
+            let idx = 0;
+            const typingSpeed = randomBetween(24, 62);
+            const typeTimer = window.setInterval(() => {
+                idx += 1;
+                line.textContent = snippet.slice(0, idx);
+
+                if (idx >= snippet.length) {
+                    window.clearInterval(typeTimer);
+                    const holdMs = randomBetween(700, 2200);
+                    window.setTimeout(() => {
+                        line.classList.add("fading");
+                        window.setTimeout(() => {
+                            line.remove();
+                            activeCodeLines = Math.max(0, activeCodeLines - 1);
+                        }, 420);
+                    }, holdMs);
+                }
+            }, typingSpeed);
+        }
+
+        function scheduleCodeLine() {
+            const nextDelay = randomBetween(320, 1500);
+            window.setTimeout(() => {
+                if (activeCodeLines < maxCodeLines) {
+                    spawnCodeLine();
+                }
+                scheduleCodeLine();
+            }, nextDelay);
+        }
+
+        function scheduleBurst() {
+            const burstDelay = randomBetween(4500, 10000);
+            window.setTimeout(() => {
+                if (activeCodeLines < maxCodeLines) {
+                    const burstSize = randomBetween(3, 4);
+                    const zone = { minTop: 10, maxTop: 60, minLeft: 8, maxLeft: 86 };
+                    for (let i = 0; i < burstSize; i += 1) {
+                        window.setTimeout(() => {
+                            if (activeCodeLines < maxCodeLines) {
+                                spawnCodeLine(zone);
+                            }
+                        }, i * randomBetween(120, 240));
+                    }
+                }
+                scheduleBurst();
+            }, burstDelay);
+        }
+
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            updateCodeOverlayStrength();
+            window.addEventListener("scroll", updateCodeOverlayStrength, { passive: true });
+            window.addEventListener("resize", updateCodeOverlayStrength);
+            scheduleCodeLine();
+            scheduleBurst();
+        }
+    </script>
+</body>
+</html>
