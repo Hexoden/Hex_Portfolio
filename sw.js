@@ -1,9 +1,11 @@
-const CACHE_VERSION = "hexoden-cache-v3";
-const RUNTIME_CACHE = "hexoden-runtime-v3";
+const CACHE_VERSION = "hexoden-cache-v4";
+const RUNTIME_CACHE = "hexoden-runtime-v4";
 
 const PRECACHE_URLS = [
     "./",
     "./index.html",
+    "./accessibility.html",
+    "./accessibility.js",
     "./christopher-ai-project.html",
     "./commanddb-project.html",
     "./homelab-report.html",

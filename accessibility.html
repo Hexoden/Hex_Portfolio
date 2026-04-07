@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility | Hexoden.dev</title>
+    <meta name="description" content="Accessibility settings for the Hexoden portfolio, including plain text mode, color themes, and font size controls.">
+    <script src="accessibility.js"></script>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --surface: #f6f6f6;
+            --surface-2: #efefef;
+            --line: #c8c8c8;
+            --text: #111111;
+            --muted: #303030;
+            --cyan: #0b5cab;
+            --amber: #8a5a00;
+            --magenta: #7a004f;
+            --shadow: none;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            background: var(--bg);
+            min-height: 100%;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.75;
+        }
+
+        a {
+            color: var(--cyan);
+        }
+
+        .wrap {
+            width: min(960px, 92vw);
+            margin: 0 auto;
+            padding: 2rem 0 3rem;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.55rem 0.82rem;
+            border: 1px solid var(--line);
+            border-radius: 0.75rem;
+            background: var(--surface);
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .hero,
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 1rem;
+            padding: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: Arial, Helvetica, sans-serif;
+            letter-spacing: normal;
+            text-transform: none;
+            margin-bottom: 0.6rem;
+        }
+
+        h1 {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+        }
+
+        p {
+            margin-bottom: 0.85rem;
+            color: var(--muted);
+        }
+
+        .note {
+            border: 1px solid var(--line);
+            background: #fff;
+            border-radius: 0.85rem;
+            padding: 0.85rem 0.95rem;
+            margin-top: 0.9rem;
+        }
+
+        .controls {
+            display: grid;
+            gap: 0.85rem;
+        }
+
+        .control-row {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        label {
+            font-weight: 700;
+        }
+
+        input[type="range"],
+        select {
+            width: 100%;
+        }
+
+        input[type="checkbox"] {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.45rem;
+        }
+
+        .toggle-line {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .values {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .page-links {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(220px, 1fr));
+            gap: 0.65rem;
+            list-style: none;
+            padding: 0;
+        }
+
+        .page-links li {
+            border: 1px solid var(--line);
+            border-radius: 0.85rem;
+            padding: 0.75rem 0.85rem;
+            background: #fff;
+        }
+
+        .page-links a {
+            display: block;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .page-links small {
+            display: block;
+            margin-top: 0.2rem;
+            color: var(--muted);
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 0.3rem;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.65rem 0.85rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--line);
+            background: #fff;
+            color: var(--text);
+            text-decoration: none;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .button.primary {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .grid-two {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        @media (max-width: 760px) {
+            .grid-two,
+            .page-links {
+                grid-template-columns: 1fr;
+            }
+
+            .control-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <div class="topbar">
+            <a class="back-link" href="index.html">Back to Home</a>
+            <a class="back-link" href="index.html#contact">Contact</a>
+        </div>
+
+        <section class="hero">
+            <h1>Accessibility</h1>
+            <p>Use these settings to switch the site into a plain text version, choose eye-friendly color palettes, and adjust font size and line spacing.</p>
+            <div class="note">Changes here apply to the full site and are saved in your browser.</div>
+        </section>
+
+        <section class="panel">
+            <h2>Display Settings</h2>
+            <div class="controls">
+                <div class="control-row">
+                    <label class="toggle-line" for="accessibility-enabled">
+                        <input id="accessibility-enabled" type="checkbox">
+                        Enable accessibility mode
+                    </label>
+                    <div class="values">Turns on the site-wide plain text view and contrast overrides.</div>
+                </div>
+
+                <div class="control-row">
+                    <label class="toggle-line" for="accessibility-plain-text">
+                        <input id="accessibility-plain-text" type="checkbox">
+                        Plain text mode
+                    </label>
+                    <div class="values">Hides decorative visuals, overlays, and image-heavy sections.</div>
+                </div>
+
+                <div class="control-row">
+                    <label for="accessibility-theme">Color theme</label>
+                    <select id="accessibility-theme">
+                        <option value="paper">Paper - black on white</option>
+                        <option value="sepia">Sepia - softer contrast</option>
+                        <option value="contrast">High contrast - white on black</option>
+                        <option value="dusk">Night - softer dark palette</option>
+                    </select>
+                </div>
+
+                <div class="control-row">
+                    <label for="accessibility-font-size">Font size</label>
+                    <div>
+                        <input id="accessibility-font-size" type="range" min="0.9" max="1.7" step="0.05" value="1">
+                        <div class="values"><span>Size:</span> <strong id="accessibility-font-size-value">100%</strong></div>
+                    </div>
+                </div>
+
+                <div class="control-row">
+                    <label for="accessibility-line-height">Line spacing</label>
+                    <div>
+                        <input id="accessibility-line-height" type="range" min="1.35" max="2.1" step="0.05" value="1.75">
+                        <div class="values"><span>Line height:</span> <strong id="accessibility-line-height-value">1.75</strong></div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button class="button primary" id="accessibility-reset" type="button">Reset defaults</button>
+                    <a class="button" href="index.html">Go to site</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Site Pages</h2>
+            <ul class="page-links">
+                <li>
+                    <a href="index.html">Home</a>
+                    <small>Main portfolio landing page.</small>
+                </li>
+                <li>
+                    <a href="christopher-ai-project.html">Christopher AI</a>
+                    <small>Self-hosted local-first AI project page.</small>
+                </li>
+                <li>
+                    <a href="commanddb-project.html">CommandDB</a>
+                    <small>Automation and workflow manager project page.</small>
+                </li>
+                <li>
+                    <a href="homelab-report.html">Homelab Report</a>
+                    <small>Build log for the home lab and deployment stack.</small>
+                </li>
+                <li>
+                    <a href="digital-sovereignty-report.html">Digital Sovereignty</a>
+                    <small>Why local-first tools matter.</small>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("./sw.js").catch(() => {});
+            });
+        }
+    </script>
+</body>
+</html>
