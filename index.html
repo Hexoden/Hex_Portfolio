@@ -484,8 +484,10 @@
             padding: 1rem 0.4rem 0.7rem;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 24px;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 100% 18px, 36px 100%;
             justify-items: center;
             align-content: end;
         }
@@ -506,7 +508,16 @@
             height: var(--bar-height);
             min-height: 3.25rem;
             border-radius: 0.9rem 0.9rem 0.45rem 0.45rem;
-            background: linear-gradient(180deg, var(--cyan), var(--magenta));
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background:
+                repeating-linear-gradient(
+                    to bottom,
+                    rgba(255, 255, 255, 0.2) 0,
+                    rgba(255, 255, 255, 0.2) 2px,
+                    transparent 2px,
+                    transparent 9px
+                ),
+                linear-gradient(180deg, var(--cyan), var(--magenta));
             box-shadow: 0 0 18px rgba(59, 227, 207, 0.18);
         }
 
@@ -524,6 +535,21 @@
         .journey-column span {
             color: var(--muted);
             font-size: 0.78rem;
+        }
+
+        .journey-signal {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-style: normal;
+            padding: 0.15rem 0.46rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(8, 12, 22, 0.8);
+            color: #dce6ff;
+            font-size: 0.68rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
         }
 
         .medtech-card h3,
@@ -1278,26 +1304,31 @@
                 <div class="journey-histogram" aria-label="Career journey progress monitor">
                     <div class="journey-column" style="--bar-height: 76%;">
                         <span class="journey-bar"></span>
+                        <em class="journey-signal">signal 76</em>
                         <strong>Mental health nursing</strong>
                         <span>foundation</span>
                     </div>
                     <div class="journey-column" style="--bar-height: 48%;">
                         <span class="journey-bar"></span>
+                        <em class="journey-signal">signal 48</em>
                         <strong>Career swap</strong>
                         <span>new direction</span>
                     </div>
                     <div class="journey-column" style="--bar-height: 60%;">
                         <span class="journey-bar"></span>
+                        <em class="journey-signal">signal 60</em>
                         <strong>Creative work</strong>
                         <span>design thinking</span>
                     </div>
                     <div class="journey-column" style="--bar-height: 84%;">
                         <span class="journey-bar"></span>
+                        <em class="journey-signal">signal 84</em>
                         <strong>Homelabbing</strong>
                         <span>systems control</span>
                     </div>
                     <div class="journey-column is-current" style="--bar-height: 96%;">
                         <span class="journey-bar"></span>
+                        <em class="journey-signal">signal 96</em>
                         <strong>Software</strong>
                         <span>full stack build</span>
                     </div>
