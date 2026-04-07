@@ -139,11 +139,13 @@
         const palette = getThemePalette(settings.theme);
         const root = document.documentElement;
         const active = settings.enabled;
+        const pageType = document.body?.dataset.accessibilityPage || (location.pathname.endsWith("accessibility.html") ? "settings" : "site");
 
         root.classList.toggle("accessibility-mode", active);
         root.classList.toggle("accessibility-plain-text", active && settings.plainText);
         root.dataset.accessibilityMode = active ? "true" : "false";
         root.dataset.accessibilityPlainText = active && settings.plainText ? "true" : "false";
+        root.dataset.accessibilityPage = pageType;
         root.dataset.accessibilityTheme = settings.theme;
         root.style.setProperty("--accessibility-font-scale", String(settings.fontScale));
         root.style.setProperty("--accessibility-line-height", String(settings.lineHeight));
@@ -231,6 +233,99 @@ html.accessibility-mode body * {
 html.accessibility-mode body * {
     transition: none !important;
     animation: none !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] nav {
+    display: none !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] main,
+html.accessibility-mode[data-accessibility-page="site"] header,
+html.accessibility-mode[data-accessibility-page="site"] section,
+html.accessibility-mode[data-accessibility-page="site"] article,
+html.accessibility-mode[data-accessibility-page="site"] aside,
+html.accessibility-mode[data-accessibility-page="site"] div,
+html.accessibility-mode[data-accessibility-page="site"] p,
+html.accessibility-mode[data-accessibility-page="site"] ul,
+html.accessibility-mode[data-accessibility-page="site"] ol,
+html.accessibility-mode[data-accessibility-page="site"] li,
+html.accessibility-mode[data-accessibility-page="site"] h1,
+html.accessibility-mode[data-accessibility-page="site"] h2,
+html.accessibility-mode[data-accessibility-page="site"] h3,
+html.accessibility-mode[data-accessibility-page="site"] h4,
+html.accessibility-mode[data-accessibility-page="site"] h5,
+html.accessibility-mode[data-accessibility-page="site"] h6 {
+    display: block !important;
+    width: auto !important;
+    max-width: none !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] .wrap,
+html.accessibility-mode[data-accessibility-page="site"] .nav-inner,
+html.accessibility-mode[data-accessibility-page="site"] .hero,
+html.accessibility-mode[data-accessibility-page="site"] .panel,
+html.accessibility-mode[data-accessibility-page="site"] .story-card,
+html.accessibility-mode[data-accessibility-page="site"] .subpanel,
+html.accessibility-mode[data-accessibility-page="site"] .deploy-node,
+html.accessibility-mode[data-accessibility-page="site"] .metric,
+html.accessibility-mode[data-accessibility-page="site"] .card,
+html.accessibility-mode[data-accessibility-page="site"] .note,
+html.accessibility-mode[data-accessibility-page="site"] .project-card,
+html.accessibility-mode[data-accessibility-page="site"] .route-card,
+html.accessibility-mode[data-accessibility-page="site"] .detail-card,
+html.accessibility-mode[data-accessibility-page="site"] .timeline-item,
+html.accessibility-mode[data-accessibility-page="site"] .tool,
+html.accessibility-mode[data-accessibility-page="site"] .tool-card,
+html.accessibility-mode[data-accessibility-page="site"] .visual-card,
+html.accessibility-mode[data-accessibility-page="site"] .skill-card,
+html.accessibility-mode[data-accessibility-page="site"] .journey-node,
+html.accessibility-mode[data-accessibility-page="site"] .journey-frame,
+html.accessibility-mode[data-accessibility-page="site"] .feature-card,
+html.accessibility-mode[data-accessibility-page="site"] .report-card,
+html.accessibility-mode[data-accessibility-page="site"] .pill,
+html.accessibility-mode[data-accessibility-page="site"] .chip,
+html.accessibility-mode[data-accessibility-page="site"] .journey-grid,
+html.accessibility-mode[data-accessibility-page="site"] .medtech-grid,
+html.accessibility-mode[data-accessibility-page="site"] .labs-grid,
+html.accessibility-mode[data-accessibility-page="site"] .notes-grid,
+html.accessibility-mode[data-accessibility-page="site"] .grid,
+html.accessibility-mode[data-accessibility-page="site"] .grid-two,
+html.accessibility-mode[data-accessibility-page="site"] .detail-grid,
+html.accessibility-mode[data-accessibility-page="site"] .hero-layout {
+    display: block !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] .hero,
+html.accessibility-mode[data-accessibility-page="site"] .panel,
+html.accessibility-mode[data-accessibility-page="site"] .story-card,
+html.accessibility-mode[data-accessibility-page="site"] .subpanel,
+html.accessibility-mode[data-accessibility-page="site"] .deploy-node,
+html.accessibility-mode[data-accessibility-page="site"] .metric,
+html.accessibility-mode[data-accessibility-page="site"] .card,
+html.accessibility-mode[data-accessibility-page="site"] .note,
+html.accessibility-mode[data-accessibility-page="site"] .project-card,
+html.accessibility-mode[data-accessibility-page="site"] .route-card,
+html.accessibility-mode[data-accessibility-page="site"] .detail-card,
+html.accessibility-mode[data-accessibility-page="site"] .timeline-item,
+html.accessibility-mode[data-accessibility-page="site"] .tool,
+html.accessibility-mode[data-accessibility-page="site"] .tool-card,
+html.accessibility-mode[data-accessibility-page="site"] .visual-card,
+html.accessibility-mode[data-accessibility-page="site"] .skill-card,
+html.accessibility-mode[data-accessibility-page="site"] .journey-node,
+html.accessibility-mode[data-accessibility-page="site"] .journey-frame,
+html.accessibility-mode[data-accessibility-page="site"] .feature-card,
+html.accessibility-mode[data-accessibility-page="site"] .report-card,
+html.accessibility-mode[data-accessibility-page="site"] .pill,
+html.accessibility-mode[data-accessibility-page="site"] .chip {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 
 html.accessibility-mode nav,
