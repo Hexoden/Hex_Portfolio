@@ -471,21 +471,20 @@ html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"]
 }
 
 html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] img,
-html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] video {
-    display: block !important;
-    max-width: min(100%, 560px) !important;
-    width: auto !important;
-    height: auto !important;
-    margin: 0.5rem 0 1rem !important;
-    border: 1px solid var(--line) !important;
+html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] video,
+html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] canvas,
+html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] svg,
+html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] iframe,
+html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] picture,
+html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] source {
+    display: none !important;
 }
 
-html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] figure {
+html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] .accessibility-media-link {
     display: block !important;
-    margin: 0 0 1rem !important;
-    padding: 0 !important;
-    background: transparent !important;
-    border: 0 !important;
+    margin: 0.35rem 0 0.75rem !important;
+    color: var(--text) !important;
+    text-decoration: underline !important;
 }
 
 html.accessibility-mode.accessibility-plain-text .hero,
@@ -737,8 +736,80 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
 
         saveSettings(next);
         applyPalette(next);
+        syncMediaLinks(next);
         reflectControls(next);
         return next;
+    }
+
+    function cleanupMediaLinks() {
+        document.querySelectorAll(".accessibility-media-link").forEach((link) => link.remove());
+    }
+
+    function nearestContentLabel(element) {
+        const cardHeading = element.closest("article, figure, section, div")?.querySelector("h1, h2, h3, h4, h5, h6");
+        if (cardHeading && cardHeading.textContent) {
+            return cardHeading.textContent.trim();
+        }
+
+        return "media";
+    }
+
+    function createMediaLink(url, label, insertAfter) {
+        if (!url || !insertAfter) {
+            return;
+        }
+
+        const link = document.createElement("a");
+        link.className = "accessibility-media-link";
+        link.href = url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = label;
+        insertAfter.insertAdjacentElement("afterend", link);
+    }
+
+    function syncMediaLinks(settings) {
+        cleanupMediaLinks();
+
+        const pageType = document.documentElement.dataset.accessibilityPage || "site";
+        if (!settings.enabled || settings.plainText || pageType !== "site") {
+            return;
+        }
+
+        const handled = new Set();
+        const images = document.querySelectorAll("img[src]");
+        images.forEach((img) => {
+            if (img.closest(".coming-soon-trigger") || img.closest(".soon-toast")) {
+                return;
+            }
+
+            const src = img.getAttribute("src");
+            if (!src || handled.has(src)) {
+                return;
+            }
+
+            handled.add(src);
+            const alt = (img.getAttribute("alt") || "").trim();
+            const label = alt ? `Open image: ${alt}` : `Open image from ${nearestContentLabel(img)}`;
+            const anchorPoint = img.closest("figure") || img;
+            createMediaLink(src, label, anchorPoint);
+        });
+
+        const videos = document.querySelectorAll("video");
+        videos.forEach((video) => {
+            if (video.closest(".coming-soon-trigger") || video.closest(".soon-toast")) {
+                return;
+            }
+
+            const src = video.getAttribute("src") || video.querySelector("source[src]")?.getAttribute("src");
+            if (!src || handled.has(src)) {
+                return;
+            }
+
+            handled.add(src);
+            const label = `Open video from ${nearestContentLabel(video)}`;
+            createMediaLink(src, label, video);
+        });
     }
 
     function bindControls() {
@@ -782,8 +853,10 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
 
     function init() {
         ensureStyleTag();
-        applyPalette(readSettings());
-        reflectControls(readSettings());
+        const settings = readSettings();
+        applyPalette(settings);
+        syncMediaLinks(settings);
+        reflectControls(settings);
         bindControls();
     }
 
