@@ -596,6 +596,15 @@
             transition: transform 0.2s ease, border-color 0.2s ease;
         }
 
+        .coming-soon-trigger {
+            cursor: pointer;
+        }
+
+        .coming-soon-trigger:focus-visible {
+            outline: 2px solid rgba(59, 227, 207, 0.9);
+            outline-offset: 3px;
+        }
+
         .note-link {
             display: block;
             color: inherit;
@@ -948,6 +957,30 @@
             padding: 0.5rem 0.75rem;
             font-size: 0.9rem;
             cursor: pointer;
+        }
+
+        .soon-toast {
+            position: fixed;
+            left: 50%;
+            bottom: 1.3rem;
+            transform: translate(-50%, 14px);
+            padding: 0.65rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(59, 227, 207, 0.55);
+            background: linear-gradient(140deg, rgba(8, 14, 28, 0.95), rgba(17, 24, 45, 0.95));
+            color: #eaf3ff;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.36);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 70;
+        }
+
+        .soon-toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
         }
 
         .contact {
@@ -1413,20 +1446,20 @@
                 <p class="section-note">The smaller focus areas that shape how I think about infrastructure, trust, and software ownership.</p>
             </div>
             <div class="labs-grid">
-                <article class="lab-card">
+                <article class="lab-card coming-soon-trigger" role="button" tabindex="0" aria-label="Homelab card - coming soon">
                     <h3>Homelab</h3>
                     <p>Private infrastructure, Docker services, storage, and self-hosted experiments that keep my tools under my control.</p>
                 </article>
-                <article class="lab-card">
+                <article class="lab-card coming-soon-trigger" role="button" tabindex="0" aria-label="Security card - coming soon">
                     <h3>Security</h3>
                     <p>Practical security, safer workflows, and systems designed to protect people and data without making the product miserable to use.</p>
                 </article>
-                <article class="lab-card">
+                <article class="lab-card coming-soon-trigger" role="button" tabindex="0" aria-label="Open Source card - coming soon">
                     <h3>Open Source</h3>
                     <p>Tools, workflows, and community-minded projects that stay transparent, reusable, and easy to build on.
                     </p>
                 </article>
-                <article class="lab-card">
+                <article class="lab-card coming-soon-trigger" role="button" tabindex="0" aria-label="Full Stack card - coming soon">
                     <h3>Full Stack</h3>
                     <p>Frontend, backend, deployment, and data systems tied together into software that feels coherent from start to finish.</p>
                 </article>
@@ -1446,7 +1479,7 @@
                         <p>Notes on data ownership, self-hosting, and building systems that respect the people who use them.</p>
                     </article>
                 </a>
-                <article class="note-card">
+                <article class="note-card coming-soon-trigger" role="button" tabindex="0" aria-label="Security note - coming soon">
                     <span class="note-meta">Security</span>
                     <h3>Useful security, not decorative security</h3>
                     <p>Thoughts on making secure systems that are still usable for real people doing real work.</p>
@@ -1536,6 +1569,7 @@
         <button class="image-modal-close" id="image-modal-close" type="button" aria-label="Close enlarged image">Close</button>
         <img id="image-modal-img" src="" alt="">
     </div>
+    <div class="soon-toast" id="soon-toast" role="status" aria-live="polite">Coming soon</div>
 
     <script>
         const observer = new IntersectionObserver(
@@ -1753,6 +1787,31 @@
         const imageModal = document.getElementById("image-modal");
         const imageModalImg = document.getElementById("image-modal-img");
         const imageModalClose = document.getElementById("image-modal-close");
+        const soonToast = document.getElementById("soon-toast");
+        const soonTriggers = document.querySelectorAll(".coming-soon-trigger");
+        let soonToastTimer;
+
+        function showSoonToast() {
+            if (!soonToast) {
+                return;
+            }
+
+            soonToast.classList.add("show");
+            window.clearTimeout(soonToastTimer);
+            soonToastTimer = window.setTimeout(() => {
+                soonToast.classList.remove("show");
+            }, 1300);
+        }
+
+        soonTriggers.forEach((card) => {
+            card.addEventListener("click", showSoonToast);
+            card.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    showSoonToast();
+                }
+            });
+        });
 
         function openImageModal(src, alt) {
             if (!imageModal || !imageModalImg) {
