@@ -481,6 +481,10 @@ html.accessibility-mode[data-accessibility-page="site"] #toolkit .toolkit-grid {
     display: none !important;
 }
 
+html.accessibility-mode[data-accessibility-page="site"] #journey {
+    display: none !important;
+}
+
 html.accessibility-mode[data-accessibility-page="site"] .accessibility-toolkit-list {
     display: block !important;
     margin: 0.4rem 0 0.85rem !important;
@@ -507,6 +511,9 @@ html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="
     margin: 0.35rem 0 0.75rem !important;
     color: var(--text) !important;
     text-decoration: underline !important;
+    pointer-events: auto !important;
+    position: relative !important;
+    z-index: 3 !important;
 }
 
 html.accessibility-mode.accessibility-plain-text .hero,
@@ -787,6 +794,8 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
         }
 
         const absoluteUrl = new URL(url, window.location.href).href;
+        const anchorParent = insertAfter.closest("a");
+        const insertionTarget = anchorParent || insertAfter;
 
         const link = document.createElement("a");
         link.className = "accessibility-media-link";
@@ -794,7 +803,7 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
         link.target = "_blank";
         link.rel = "noopener noreferrer";
         link.textContent = label;
-        insertAfter.insertAdjacentElement("afterend", link);
+        insertionTarget.insertAdjacentElement("afterend", link);
     }
 
     function syncMediaLinks(settings) {
@@ -808,11 +817,11 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
         const handled = new Set();
         const images = document.querySelectorAll("img[src]");
         images.forEach((img) => {
-            if (img.closest(".coming-soon-trigger") || img.closest(".soon-toast") || img.closest("#toolkit")) {
+            if (img.closest(".coming-soon-trigger") || img.closest(".soon-toast") || img.closest("#toolkit") || img.closest("#journey")) {
                 return;
             }
 
-            const src = img.getAttribute("src");
+            const src = img.dataset.fullsrc || img.currentSrc || img.getAttribute("src");
             if (!src || handled.has(src)) {
                 return;
             }
@@ -826,7 +835,7 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
 
         const videos = document.querySelectorAll("video");
         videos.forEach((video) => {
-            if (video.closest(".coming-soon-trigger") || video.closest(".soon-toast") || video.closest("#toolkit")) {
+            if (video.closest(".coming-soon-trigger") || video.closest(".soon-toast") || video.closest("#toolkit") || video.closest("#journey")) {
                 return;
             }
 
