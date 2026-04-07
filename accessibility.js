@@ -470,6 +470,28 @@ html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"]
     display: none !important;
 }
 
+html.accessibility-mode[data-accessibility-page="site"] .coming-soon-trigger::before,
+html.accessibility-mode[data-accessibility-page="site"] .coming-soon-trigger::after,
+html.accessibility-mode[data-accessibility-page="site"] .soon-toast,
+html.accessibility-mode[data-accessibility-page="site"] #soon-toast {
+    display: none !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] #toolkit .toolkit-grid {
+    display: none !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] .accessibility-toolkit-list {
+    display: block !important;
+    margin: 0.4rem 0 0.85rem !important;
+    padding-left: 1.1rem !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] .accessibility-toolkit-list li {
+    list-style: disc !important;
+    margin: 0 0 0.2rem !important;
+}
+
 html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] img,
 html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] video,
 html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] canvas,
@@ -737,12 +759,17 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
         saveSettings(next);
         applyPalette(next);
         syncMediaLinks(next);
+        syncToolkitList(next);
         reflectControls(next);
         return next;
     }
 
     function cleanupMediaLinks() {
         document.querySelectorAll(".accessibility-media-link").forEach((link) => link.remove());
+    }
+
+    function cleanupToolkitList() {
+        document.querySelectorAll(".accessibility-toolkit-list").forEach((list) => list.remove());
     }
 
     function nearestContentLabel(element) {
@@ -759,9 +786,11 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
             return;
         }
 
+        const absoluteUrl = new URL(url, window.location.href).href;
+
         const link = document.createElement("a");
         link.className = "accessibility-media-link";
-        link.href = url;
+        link.href = absoluteUrl;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
         link.textContent = label;
@@ -779,7 +808,7 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
         const handled = new Set();
         const images = document.querySelectorAll("img[src]");
         images.forEach((img) => {
-            if (img.closest(".coming-soon-trigger") || img.closest(".soon-toast")) {
+            if (img.closest(".coming-soon-trigger") || img.closest(".soon-toast") || img.closest("#toolkit")) {
                 return;
             }
 
@@ -797,7 +826,7 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
 
         const videos = document.querySelectorAll("video");
         videos.forEach((video) => {
-            if (video.closest(".coming-soon-trigger") || video.closest(".soon-toast")) {
+            if (video.closest(".coming-soon-trigger") || video.closest(".soon-toast") || video.closest("#toolkit")) {
                 return;
             }
 
@@ -810,6 +839,46 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
             const label = `Open video from ${nearestContentLabel(video)}`;
             createMediaLink(src, label, video);
         });
+    }
+
+    function syncToolkitList(settings) {
+        cleanupToolkitList();
+
+        const pageType = document.documentElement.dataset.accessibilityPage || "site";
+        if (!settings.enabled || pageType !== "site") {
+            return;
+        }
+
+        const toolkitSection = document.getElementById("toolkit");
+        const toolkitGrid = toolkitSection?.querySelector(".toolkit-grid");
+        if (!toolkitSection || !toolkitGrid) {
+            return;
+        }
+
+        const names = Array.from(toolkitGrid.querySelectorAll(".toolkit-tile span"))
+            .map((item) => item.textContent?.trim())
+            .filter(Boolean);
+
+        if (names.length === 0) {
+            return;
+        }
+
+        const uniqueNames = [...new Set(names)];
+        const list = document.createElement("ul");
+        list.className = "accessibility-toolkit-list";
+
+        uniqueNames.forEach((name) => {
+            const li = document.createElement("li");
+            li.textContent = name;
+            list.appendChild(li);
+        });
+
+        const legend = toolkitSection.querySelector(".toolkit-legend");
+        if (legend) {
+            legend.insertAdjacentElement("beforebegin", list);
+        } else {
+            toolkitSection.appendChild(list);
+        }
     }
 
     function bindControls() {
@@ -856,6 +925,7 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
         const settings = readSettings();
         applyPalette(settings);
         syncMediaLinks(settings);
+        syncToolkitList(settings);
         reflectControls(settings);
         bindControls();
     }
