@@ -413,61 +413,79 @@ html.accessibility-mode .code-line {
     display: none !important;
 }
 
-html.accessibility-mode img,
-html.accessibility-mode video,
-html.accessibility-mode canvas,
-html.accessibility-mode svg,
-html.accessibility-mode iframe,
-html.accessibility-mode picture,
-html.accessibility-mode source {
+html.accessibility-mode.accessibility-plain-text img,
+html.accessibility-mode.accessibility-plain-text video,
+html.accessibility-mode.accessibility-plain-text canvas,
+html.accessibility-mode.accessibility-plain-text svg,
+html.accessibility-mode.accessibility-plain-text iframe,
+html.accessibility-mode.accessibility-plain-text picture,
+html.accessibility-mode.accessibility-plain-text source {
     display: none !important;
 }
 
-html.accessibility-mode .hero-profile,
-html.accessibility-mode .media-stack,
-html.accessibility-mode .visual-media,
-html.accessibility-mode .artwork-grid,
-html.accessibility-mode .screens,
-html.accessibility-mode .toolkit-grid,
-html.accessibility-mode .project-gallery,
-html.accessibility-mode .journey-monitor,
-html.accessibility-mode .journey-histogram,
-html.accessibility-mode .journey-markers,
-html.accessibility-mode .hero-cta,
-html.accessibility-mode .metrics,
-html.accessibility-mode .visual-canvas,
-html.accessibility-mode .visual-stack,
-html.accessibility-mode .artwork-stack,
-html.accessibility-mode .hero figure,
-html.accessibility-mode .labs-grid .media-card,
-html.accessibility-mode .notes-grid .media-card {
+html.accessibility-mode.accessibility-plain-text .hero-profile,
+html.accessibility-mode.accessibility-plain-text .media-stack,
+html.accessibility-mode.accessibility-plain-text .visual-media,
+html.accessibility-mode.accessibility-plain-text .artwork-grid,
+html.accessibility-mode.accessibility-plain-text .screens,
+html.accessibility-mode.accessibility-plain-text .toolkit-grid,
+html.accessibility-mode.accessibility-plain-text .project-gallery,
+html.accessibility-mode.accessibility-plain-text .journey-monitor,
+html.accessibility-mode.accessibility-plain-text .journey-histogram,
+html.accessibility-mode.accessibility-plain-text .journey-markers,
+html.accessibility-mode.accessibility-plain-text .hero-cta,
+html.accessibility-mode.accessibility-plain-text .metrics,
+html.accessibility-mode.accessibility-plain-text .visual-canvas,
+html.accessibility-mode.accessibility-plain-text .visual-stack,
+html.accessibility-mode.accessibility-plain-text .artwork-stack,
+html.accessibility-mode.accessibility-plain-text .hero figure,
+html.accessibility-mode.accessibility-plain-text .labs-grid .media-card,
+html.accessibility-mode.accessibility-plain-text .notes-grid .media-card {
     display: none !important;
 }
 
-html.accessibility-mode[data-accessibility-page="site"] .btn,
-html.accessibility-mode[data-accessibility-page="site"] .hero-cta,
-html.accessibility-mode[data-accessibility-page="site"] .metrics,
-html.accessibility-mode[data-accessibility-page="site"] .nav-links,
-html.accessibility-mode[data-accessibility-page="site"] .brand,
-html.accessibility-mode[data-accessibility-page="site"] .hero-kicker,
-html.accessibility-mode[data-accessibility-page="site"] .toolkit-grid,
-html.accessibility-mode[data-accessibility-page="site"] .visual-stack,
-html.accessibility-mode[data-accessibility-page="site"] .visual-canvas,
-html.accessibility-mode[data-accessibility-page="site"] .artwork-stack,
-html.accessibility-mode[data-accessibility-page="site"] .artwork-grid,
-html.accessibility-mode[data-accessibility-page="site"] .code-overlay,
-html.accessibility-mode[data-accessibility-page="site"] .grid-overlay,
-html.accessibility-mode[data-accessibility-page="site"] .image-modal,
-html.accessibility-mode[data-accessibility-page="site"] .soon-toast,
-html.accessibility-mode[data-accessibility-page="site"] .hero-profile,
-html.accessibility-mode[data-accessibility-page="site"] .hero figure,
-html.accessibility-mode[data-accessibility-page="site"] .journey-monitor,
-html.accessibility-mode[data-accessibility-page="site"] .journey-histogram,
-html.accessibility-mode[data-accessibility-page="site"] .journey-markers,
-html.accessibility-mode[data-accessibility-page="site"] .media-stack,
-html.accessibility-mode[data-accessibility-page="site"] .visual-media,
-html.accessibility-mode[data-accessibility-page="site"] .screens {
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .btn,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .hero-cta,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .metrics,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .nav-links,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .brand,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .hero-kicker,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .toolkit-grid,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .visual-stack,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .visual-canvas,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .artwork-stack,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .artwork-grid,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .code-overlay,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .grid-overlay,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .image-modal,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .soon-toast,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .hero-profile,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .hero figure,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .journey-monitor,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .journey-histogram,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .journey-markers,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .media-stack,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .visual-media,
+html.accessibility-mode.accessibility-plain-text[data-accessibility-page="site"] .screens {
     display: none !important;
+}
+
+html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] img,
+html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] video {
+    display: block !important;
+    max-width: min(100%, 560px) !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0.5rem 0 1rem !important;
+    border: 1px solid var(--line) !important;
+}
+
+html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] figure {
+    display: block !important;
+    margin: 0 0 1rem !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
 }
 
 html.accessibility-mode.accessibility-plain-text .hero,
