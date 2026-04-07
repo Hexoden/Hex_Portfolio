@@ -239,6 +239,15 @@ html.accessibility-mode[data-accessibility-page="site"] nav {
     display: none !important;
 }
 
+html.accessibility-mode[data-accessibility-page="site"] {
+    background: #ffffff !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] body {
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+
 html.accessibility-mode[data-accessibility-page="site"] main,
 html.accessibility-mode[data-accessibility-page="site"] header,
 html.accessibility-mode[data-accessibility-page="site"] section,
@@ -328,6 +337,21 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
     margin-right: 0 !important;
 }
 
+html.accessibility-mode[data-accessibility-page="site"] *,
+html.accessibility-mode[data-accessibility-page="site"] *::before,
+html.accessibility-mode[data-accessibility-page="site"] *::after {
+    color: #000000 !important;
+    opacity: 1 !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] a,
+html.accessibility-mode[data-accessibility-page="site"] a:visited,
+html.accessibility-mode[data-accessibility-page="site"] a:hover,
+html.accessibility-mode[data-accessibility-page="site"] a:focus-visible {
+    color: #000000 !important;
+    text-decoration: underline !important;
+}
+
 html.accessibility-mode nav,
 html.accessibility-mode header,
 html.accessibility-mode section,
@@ -401,6 +425,32 @@ html.accessibility-mode .artwork-stack,
 html.accessibility-mode .hero figure,
 html.accessibility-mode .labs-grid .media-card,
 html.accessibility-mode .notes-grid .media-card {
+    display: none !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] .btn,
+html.accessibility-mode[data-accessibility-page="site"] .hero-cta,
+html.accessibility-mode[data-accessibility-page="site"] .metrics,
+html.accessibility-mode[data-accessibility-page="site"] .nav-links,
+html.accessibility-mode[data-accessibility-page="site"] .brand,
+html.accessibility-mode[data-accessibility-page="site"] .hero-kicker,
+html.accessibility-mode[data-accessibility-page="site"] .toolkit-grid,
+html.accessibility-mode[data-accessibility-page="site"] .visual-stack,
+html.accessibility-mode[data-accessibility-page="site"] .visual-canvas,
+html.accessibility-mode[data-accessibility-page="site"] .artwork-stack,
+html.accessibility-mode[data-accessibility-page="site"] .artwork-grid,
+html.accessibility-mode[data-accessibility-page="site"] .code-overlay,
+html.accessibility-mode[data-accessibility-page="site"] .grid-overlay,
+html.accessibility-mode[data-accessibility-page="site"] .image-modal,
+html.accessibility-mode[data-accessibility-page="site"] .soon-toast,
+html.accessibility-mode[data-accessibility-page="site"] .hero-profile,
+html.accessibility-mode[data-accessibility-page="site"] .hero figure,
+html.accessibility-mode[data-accessibility-page="site"] .journey-monitor,
+html.accessibility-mode[data-accessibility-page="site"] .journey-histogram,
+html.accessibility-mode[data-accessibility-page="site"] .journey-markers,
+html.accessibility-mode[data-accessibility-page="site"] .media-stack,
+html.accessibility-mode[data-accessibility-page="site"] .visual-media,
+html.accessibility-mode[data-accessibility-page="site"] .screens {
     display: none !important;
 }
 
@@ -577,6 +627,31 @@ html.accessibility-mode .btn {
     padding: 0 !important;
     border: 0 !important;
     text-decoration: underline !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] .hero,
+html.accessibility-mode[data-accessibility-page="site"] .panel,
+html.accessibility-mode[data-accessibility-page="site"] .story-card,
+html.accessibility-mode[data-accessibility-page="site"] .subpanel,
+html.accessibility-mode[data-accessibility-page="site"] .deploy-node,
+html.accessibility-mode[data-accessibility-page="site"] .metric,
+html.accessibility-mode[data-accessibility-page="site"] .card,
+html.accessibility-mode[data-accessibility-page="site"] .note,
+html.accessibility-mode[data-accessibility-page="site"] .project-card,
+html.accessibility-mode[data-accessibility-page="site"] .route-card,
+html.accessibility-mode[data-accessibility-page="site"] .detail-card,
+html.accessibility-mode[data-accessibility-page="site"] .timeline-item,
+html.accessibility-mode[data-accessibility-page="site"] .tool,
+html.accessibility-mode[data-accessibility-page="site"] .tool-card,
+html.accessibility-mode[data-accessibility-page="site"] .visual-card,
+html.accessibility-mode[data-accessibility-page="site"] .skill-card,
+html.accessibility-mode[data-accessibility-page="site"] .journey-node,
+html.accessibility-mode[data-accessibility-page="site"] .journey-frame,
+html.accessibility-mode[data-accessibility-page="site"] .feature-card,
+html.accessibility-mode[data-accessibility-page="site"] .report-card,
+html.accessibility-mode[data-accessibility-page="site"] .pill,
+html.accessibility-mode[data-accessibility-page="site"] .chip {
+    color: #000000 !important;
 }
 `;
         document.head.appendChild(style);
