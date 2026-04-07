@@ -240,12 +240,12 @@ html.accessibility-mode[data-accessibility-page="site"] nav {
 }
 
 html.accessibility-mode[data-accessibility-page="site"] {
-    background: #ffffff !important;
+    background: var(--bg) !important;
 }
 
 html.accessibility-mode[data-accessibility-page="site"] body {
-    background: #ffffff !important;
-    color: #000000 !important;
+    background: var(--bg) !important;
+    color: var(--text) !important;
 }
 
 html.accessibility-mode[data-accessibility-page="site"] main,
@@ -340,7 +340,10 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
 html.accessibility-mode[data-accessibility-page="site"] *,
 html.accessibility-mode[data-accessibility-page="site"] *::before,
 html.accessibility-mode[data-accessibility-page="site"] *::after {
-    color: #000000 !important;
+    color: var(--text) !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
     opacity: 1 !important;
 }
 
@@ -348,8 +351,21 @@ html.accessibility-mode[data-accessibility-page="site"] a,
 html.accessibility-mode[data-accessibility-page="site"] a:visited,
 html.accessibility-mode[data-accessibility-page="site"] a:hover,
 html.accessibility-mode[data-accessibility-page="site"] a:focus-visible {
-    color: #000000 !important;
+    color: var(--text) !important;
     text-decoration: underline !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] p,
+html.accessibility-mode[data-accessibility-page="site"] li,
+html.accessibility-mode[data-accessibility-page="site"] a,
+html.accessibility-mode[data-accessibility-page="site"] span,
+html.accessibility-mode[data-accessibility-page="site"] small,
+html.accessibility-mode[data-accessibility-page="site"] strong,
+html.accessibility-mode[data-accessibility-page="site"] em,
+html.accessibility-mode[data-accessibility-page="site"] td,
+html.accessibility-mode[data-accessibility-page="site"] th,
+html.accessibility-mode[data-accessibility-page="site"] figcaption {
+    font-size: 1.08em !important;
 }
 
 html.accessibility-mode nav,
@@ -651,7 +667,7 @@ html.accessibility-mode[data-accessibility-page="site"] .feature-card,
 html.accessibility-mode[data-accessibility-page="site"] .report-card,
 html.accessibility-mode[data-accessibility-page="site"] .pill,
 html.accessibility-mode[data-accessibility-page="site"] .chip {
-    color: #000000 !important;
+    color: var(--text) !important;
 }
 `;
         document.head.appendChild(style);

@@ -1,5 +1,5 @@
-const CACHE_VERSION = "hexoden-cache-v4";
-const RUNTIME_CACHE = "hexoden-runtime-v4";
+const CACHE_VERSION = "hexoden-cache-v5";
+const RUNTIME_CACHE = "hexoden-runtime-v5";
 
 const PRECACHE_URLS = [
     "./",
