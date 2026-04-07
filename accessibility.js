@@ -140,7 +140,10 @@
         const root = document.documentElement;
         const active = settings.enabled;
 
+        root.classList.toggle("accessibility-mode", active);
+        root.classList.toggle("accessibility-plain-text", active && settings.plainText);
         root.dataset.accessibilityMode = active ? "true" : "false";
+        root.dataset.accessibilityPlainText = active && settings.plainText ? "true" : "false";
         root.dataset.accessibilityTheme = settings.theme;
         root.style.setProperty("--accessibility-font-scale", String(settings.fontScale));
         root.style.setProperty("--accessibility-line-height", String(settings.lineHeight));
@@ -210,10 +213,19 @@ html.accessibility-mode body {
     font-family: Arial, Helvetica, sans-serif !important;
 }
 
-html.accessibility-mode body,
 html.accessibility-mode body * {
+    background-image: none !important;
+    background-attachment: scroll !important;
+    border-radius: 0 !important;
+    filter: none !important;
+    backdrop-filter: none !important;
     text-shadow: none !important;
     box-shadow: none !important;
+}
+
+html.accessibility-mode body,
+html.accessibility-mode body * {
+    scroll-behavior: auto !important;
 }
 
 html.accessibility-mode body * {
@@ -222,6 +234,11 @@ html.accessibility-mode body * {
 }
 
 html.accessibility-mode nav,
+html.accessibility-mode header,
+html.accessibility-mode section,
+html.accessibility-mode main,
+html.accessibility-mode .wrap,
+html.accessibility-mode .nav-inner,
 html.accessibility-mode .hero,
 html.accessibility-mode .panel,
 html.accessibility-mode .story-card,
@@ -244,7 +261,7 @@ html.accessibility-mode .feature-card,
 html.accessibility-mode .report-card,
 html.accessibility-mode .pill,
 html.accessibility-mode .chip {
-    background: var(--surface) !important;
+    background: transparent !important;
     border-color: var(--line) !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
@@ -256,26 +273,69 @@ html.accessibility-mode .grid-overlay,
 html.accessibility-mode .code-overlay,
 html.accessibility-mode .soon-toast,
 html.accessibility-mode .image-modal,
-html.accessibility-mode .image-modal * {
+html.accessibility-mode .image-modal *,
+html.accessibility-mode .code-line {
     display: none !important;
 }
 
 html.accessibility-mode img,
 html.accessibility-mode video,
 html.accessibility-mode canvas,
-html.accessibility-mode svg {
+html.accessibility-mode svg,
+html.accessibility-mode iframe,
+html.accessibility-mode picture,
+html.accessibility-mode source {
     display: none !important;
 }
 
-html.accessibility-mode figure,
 html.accessibility-mode .hero-profile,
 html.accessibility-mode .media-stack,
 html.accessibility-mode .visual-media,
 html.accessibility-mode .artwork-grid,
 html.accessibility-mode .screens,
 html.accessibility-mode .toolkit-grid,
-html.accessibility-mode .project-gallery {
+html.accessibility-mode .project-gallery,
+html.accessibility-mode .journey-monitor,
+html.accessibility-mode .journey-histogram,
+html.accessibility-mode .journey-markers,
+html.accessibility-mode .hero-cta,
+html.accessibility-mode .metrics,
+html.accessibility-mode .visual-canvas,
+html.accessibility-mode .visual-stack,
+html.accessibility-mode .artwork-stack,
+html.accessibility-mode .hero figure,
+html.accessibility-mode .labs-grid .media-card,
+html.accessibility-mode .notes-grid .media-card {
     display: none !important;
+}
+
+html.accessibility-mode.accessibility-plain-text .hero,
+html.accessibility-mode.accessibility-plain-text .panel,
+html.accessibility-mode.accessibility-plain-text .story-card,
+html.accessibility-mode.accessibility-plain-text .subpanel,
+html.accessibility-mode.accessibility-plain-text .deploy-node,
+html.accessibility-mode.accessibility-plain-text .metric,
+html.accessibility-mode.accessibility-plain-text .card,
+html.accessibility-mode.accessibility-plain-text .note,
+html.accessibility-mode.accessibility-plain-text .project-card,
+html.accessibility-mode.accessibility-plain-text .route-card,
+html.accessibility-mode.accessibility-plain-text .detail-card,
+html.accessibility-mode.accessibility-plain-text .timeline-item,
+html.accessibility-mode.accessibility-plain-text .tool,
+html.accessibility-mode.accessibility-plain-text .tool-card,
+html.accessibility-mode.accessibility-plain-text .visual-card,
+html.accessibility-mode.accessibility-plain-text .skill-card,
+html.accessibility-mode.accessibility-plain-text .journey-node,
+html.accessibility-mode.accessibility-plain-text .journey-frame,
+html.accessibility-mode.accessibility-plain-text .feature-card,
+html.accessibility-mode.accessibility-plain-text .report-card,
+html.accessibility-mode.accessibility-plain-text .pill,
+html.accessibility-mode.accessibility-plain-text .chip {
+    border: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
 }
 
 html.accessibility-mode h1,
@@ -334,10 +394,94 @@ html.accessibility-mode .topbar {
     flex-wrap: wrap !important;
 }
 
+html.accessibility-mode .nav-links,
+html.accessibility-mode .hero-layout,
+html.accessibility-mode .grid,
+html.accessibility-mode .detail-grid,
+html.accessibility-mode .grid-two,
+html.accessibility-mode .tool-grid,
+html.accessibility-mode .journey-layout,
+html.accessibility-mode .labs-grid,
+html.accessibility-mode .notes-grid,
+html.accessibility-mode .screen-grid,
+html.accessibility-mode .section-stack,
+html.accessibility-mode .medtech-grid {
+    display: block !important;
+}
+
+html.accessibility-mode .nav-links a,
+html.accessibility-mode .back-link,
+html.accessibility-mode .peer-link,
+html.accessibility-mode .repo-link,
+html.accessibility-mode .btn,
+html.accessibility-mode .chip,
+html.accessibility-mode .metric,
+html.accessibility-mode .story-card,
+html.accessibility-mode .panel,
+html.accessibility-mode .hero,
+html.accessibility-mode .subpanel,
+html.accessibility-mode .deploy-node,
+html.accessibility-mode .card,
+html.accessibility-mode .route-card,
+html.accessibility-mode .detail-card,
+html.accessibility-mode .timeline-item,
+html.accessibility-mode .tool,
+html.accessibility-mode .tool-card,
+html.accessibility-mode .visual-card,
+html.accessibility-mode .skill-card,
+html.accessibility-mode .journey-card,
+html.accessibility-mode .feature-card,
+html.accessibility-mode .report-card {
+    display: block !important;
+    width: auto !important;
+}
+
 html.accessibility-mode .wrap,
 html.accessibility-mode .nav-inner,
 html.accessibility-mode .topbar {
     width: min(1120px, 94vw) !important;
+}
+
+html.accessibility-mode nav {
+    position: static !important;
+    border-bottom: 1px solid var(--line) !important;
+}
+
+html.accessibility-mode section {
+    padding: 0 0 1rem !important;
+}
+
+html.accessibility-mode .hero,
+html.accessibility-mode .panel,
+html.accessibility-mode .story-card,
+html.accessibility-mode .subpanel,
+html.accessibility-mode .deploy-node,
+html.accessibility-mode .metric,
+html.accessibility-mode .card,
+html.accessibility-mode .note,
+html.accessibility-mode .project-card,
+html.accessibility-mode .route-card,
+html.accessibility-mode .detail-card,
+html.accessibility-mode .timeline-item,
+html.accessibility-mode .tool,
+html.accessibility-mode .tool-card,
+html.accessibility-mode .visual-card,
+html.accessibility-mode .skill-card,
+html.accessibility-mode .journey-card,
+html.accessibility-mode .feature-card,
+html.accessibility-mode .report-card {
+    padding: 0 0 0.8rem !important;
+    margin: 0 0 1rem !important;
+}
+
+html.accessibility-mode .nav-links a,
+html.accessibility-mode .back-link,
+html.accessibility-mode .peer-link,
+html.accessibility-mode .repo-link,
+html.accessibility-mode .btn {
+    padding: 0 !important;
+    border: 0 !important;
+    text-decoration: underline !important;
 }
 `;
         document.head.appendChild(style);
