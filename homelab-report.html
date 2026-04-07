@@ -21,6 +21,12 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        html {
+            min-height: 100%;
+            background: #05060c;
+            overscroll-behavior-y: none;
+        }
+
         body {
             font-family: "Sora", "Segoe UI", sans-serif;
             color: var(--text);
@@ -30,6 +36,8 @@
                 linear-gradient(140deg, #05060c 0%, #070a14 56%, #04050a 100%);
             min-height: 100vh;
             line-height: 1.62;
+            overflow-x: hidden;
+            overscroll-behavior-y: none;
         }
 
         .wrap {
