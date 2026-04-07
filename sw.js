@@ -1,5 +1,5 @@
-const CACHE_VERSION = "hexoden-cache-v2";
-const RUNTIME_CACHE = "hexoden-runtime-v2";
+const CACHE_VERSION = "hexoden-cache-v3";
+const RUNTIME_CACHE = "hexoden-runtime-v3";
 
 const PRECACHE_URLS = [
     "./",
@@ -8,10 +8,12 @@ const PRECACHE_URLS = [
     "./commanddb-project.html",
     "./homelab-report.html",
     "./digital-sovereignty-report.html",
+    "./code-snippets.js",
     "./christopher-ai-logo.svg",
     "./Media/Pictures/selfportrait-pixel.png",
     "./Media/Pictures/game-screenshot.png",
-    "./Media/Pictures/statemachine-screenshot.png"
+    "./Media/Pictures/statemachine-screenshot.png",
+    "./Media/Pictures/remote-mapping.png"
 ];
 
 self.addEventListener("install", (event) => {
