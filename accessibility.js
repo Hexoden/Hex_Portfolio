@@ -496,6 +496,26 @@ html.accessibility-mode[data-accessibility-page="site"] .accessibility-toolkit-l
     margin: 0 0 0.2rem !important;
 }
 
+html.accessibility-mode[data-accessibility-page="site"] .accessibility-media-section {
+    display: block !important;
+    margin: 0.7rem 0 1rem !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] .accessibility-media-section h3 {
+    margin: 0 0 0.45rem !important;
+    font-size: 1.05rem !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] .accessibility-media-list {
+    margin: 0 !important;
+    padding-left: 1.1rem !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] .accessibility-media-list li {
+    list-style: disc !important;
+    margin: 0 0 0.25rem !important;
+}
+
 html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] img,
 html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] video,
 html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] canvas,
@@ -507,8 +527,7 @@ html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="
 }
 
 html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] .accessibility-media-link {
-    display: block !important;
-    margin: 0.35rem 0 0.75rem !important;
+    display: inline !important;
     color: var(--text) !important;
     text-decoration: underline !important;
     cursor: pointer !important;
@@ -774,6 +793,7 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
 
     function cleanupMediaLinks() {
         document.querySelectorAll(".accessibility-media-link").forEach((link) => link.remove());
+        document.querySelectorAll(".accessibility-media-section").forEach((section) => section.remove());
     }
 
     function cleanupToolkitList() {
@@ -790,13 +810,38 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
     }
 
     function createMediaLink(url, label, insertAfter) {
-        if (!url || !insertAfter) {
+        if (!url) {
             return;
         }
 
         const absoluteUrl = new URL(url, window.location.href).href;
-        const anchorParent = insertAfter.closest("a");
-        const insertionTarget = anchorParent || insertAfter;
+        const main = document.querySelector("main") || document.querySelector("body");
+        if (!main) {
+            return;
+        }
+
+        let section = document.querySelector(".accessibility-media-section");
+        if (!section) {
+            section = document.createElement("section");
+            section.className = "accessibility-media-section";
+
+            const title = document.createElement("h3");
+            title.textContent = "Media Links";
+            section.appendChild(title);
+
+            const list = document.createElement("ul");
+            list.className = "accessibility-media-list";
+            section.appendChild(list);
+
+            main.appendChild(section);
+        }
+
+        const list = section.querySelector(".accessibility-media-list");
+        if (!list) {
+            return;
+        }
+
+        const item = document.createElement("li");
 
         const link = document.createElement("a");
         link.className = "accessibility-media-link";
@@ -807,7 +852,9 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
         link.addEventListener("click", (event) => {
             event.stopPropagation();
         }, true);
-        insertionTarget.insertAdjacentElement("afterend", link);
+
+        item.appendChild(link);
+        list.appendChild(item);
     }
 
     function syncMediaLinks(settings) {
@@ -833,8 +880,7 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
             handled.add(src);
             const alt = (img.getAttribute("alt") || "").trim();
             const label = alt ? `Open image: ${alt}` : `Open image from ${nearestContentLabel(img)}`;
-            const anchorPoint = img.closest("figure") || img;
-            createMediaLink(src, label, anchorPoint);
+            createMediaLink(src, label);
         });
 
         const videos = document.querySelectorAll("video");
@@ -850,7 +896,7 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
 
             handled.add(src);
             const label = `Open video from ${nearestContentLabel(video)}`;
-            createMediaLink(src, label, video);
+            createMediaLink(src, label);
         });
     }
 
