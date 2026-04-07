@@ -1589,6 +1589,7 @@
 
         const maxCodeLines = window.matchMedia("(max-width: 720px)").matches ? 16 : 32;
         let activeCodeLines = 0;
+        const activeOverlaySlots = [];
 
         function randomBetween(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -1603,6 +1604,64 @@
             const progress = Math.min(window.scrollY / maxScroll, 1);
             const strength = 0.9 - progress * 0.45;
             codeOverlay.style.opacity = strength.toFixed(2);
+        }
+
+        function pruneOverlaySlots() {
+            for (let i = activeOverlaySlots.length - 1; i >= 0; i -= 1) {
+                if (!activeOverlaySlots[i].element.isConnected) {
+                    activeOverlaySlots.splice(i, 1);
+                }
+            }
+        }
+
+        function boxesOverlap(a, b, padding = 14) {
+            return !(
+                a.right + padding < b.left ||
+                a.left > b.right + padding ||
+                a.bottom + padding < b.top ||
+                a.top > b.bottom + padding
+            );
+        }
+
+        function estimateSnippetWidth(snippet) {
+            const charWidth = window.matchMedia("(max-width: 720px)").matches ? 7.2 : 8.4;
+            return Math.min(window.innerWidth * 0.72, snippet.length * charWidth + 24);
+        }
+
+        function findOverlaySlot(snippet, zone) {
+            pruneOverlaySlots();
+
+            const minTopPx = Math.floor(((zone?.minTop ?? 6) / 100) * window.innerHeight);
+            const maxTopPx = Math.floor(((zone?.maxTop ?? 92) / 100) * window.innerHeight);
+            const minLeftPx = Math.floor(((zone?.minLeft ?? 4) / 100) * window.innerWidth);
+            const maxLeftPxRaw = Math.floor(((zone?.maxLeft ?? 82) / 100) * window.innerWidth);
+
+            const width = estimateSnippetWidth(snippet);
+            const height = 24;
+            const maxLeftPx = Math.min(maxLeftPxRaw, Math.floor(window.innerWidth - width - 12));
+
+            if (maxLeftPx <= minLeftPx || maxTopPx <= minTopPx) {
+                return null;
+            }
+
+            const attempts = 30;
+            for (let i = 0; i < attempts; i += 1) {
+                const top = randomBetween(minTopPx, maxTopPx);
+                const left = randomBetween(minLeftPx, maxLeftPx);
+                const candidate = {
+                    top,
+                    left,
+                    right: left + width,
+                    bottom: top + height,
+                };
+
+                const collides = activeOverlaySlots.some((slot) => boxesOverlap(candidate, slot.box));
+                if (!collides) {
+                    return candidate;
+                }
+            }
+
+            return null;
         }
 
         function scheduleCodeLine() {
@@ -1646,21 +1705,24 @@
                 return;
             }
 
-            const line = document.createElement("span");
             const snippet = codeSnippets[randomBetween(0, codeSnippets.length - 1)];
-            const minTop = zone?.minTop ?? 6;
-            const maxTop = zone?.maxTop ?? 92;
-            const minLeft = zone?.minLeft ?? 4;
-            const maxLeft = zone?.maxLeft ?? 82;
-            const top = randomBetween(minTop, maxTop);
-            const left = randomBetween(minLeft, maxLeft);
+            const slot = findOverlaySlot(snippet, zone);
+            if (!slot) {
+                return;
+            }
+
+            const line = document.createElement("span");
 
             line.className = "code-line";
-            line.style.top = top + "vh";
-            line.style.left = left + "vw";
+            line.style.top = slot.top + "px";
+            line.style.left = slot.left + "px";
             line.textContent = "";
             codeOverlay.appendChild(line);
             activeCodeLines += 1;
+            activeOverlaySlots.push({
+                element: line,
+                box: slot,
+            });
 
             requestAnimationFrame(() => line.classList.add("visible"));
 
@@ -1677,6 +1739,10 @@
                         line.classList.add("fading");
                         window.setTimeout(() => {
                             line.remove();
+                            const idx = activeOverlaySlots.findIndex((slotItem) => slotItem.element === line);
+                            if (idx !== -1) {
+                                activeOverlaySlots.splice(idx, 1);
+                            }
                             activeCodeLines = Math.max(0, activeCodeLines - 1);
                         }, 420);
                     }, holdMs);
