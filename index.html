@@ -433,6 +433,158 @@
             color: var(--text);
         }
 
+        .medtech-grid,
+        .labs-grid,
+        .notes-grid {
+            display: grid;
+            gap: 0.95rem;
+        }
+
+        .medtech-grid {
+            grid-template-columns: repeat(2, minmax(220px, 1fr));
+        }
+
+        .journey-monitor {
+            padding: 1rem 1.05rem 1.1rem;
+            border-radius: 18px;
+            border: 1px solid rgba(160, 198, 255, 0.18);
+            background: linear-gradient(180deg, rgba(12, 16, 30, 0.84), rgba(8, 12, 22, 0.9));
+            box-shadow: var(--shadow);
+        }
+
+        .journey-markers,
+        .journey-histogram {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 0.8rem;
+        }
+
+        .journey-markers {
+            margin-bottom: 0.8rem;
+            color: var(--muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .journey-markers span,
+        .journey-column span,
+        .journey-column strong {
+            text-align: center;
+        }
+
+        .journey-histogram {
+            align-items: end;
+            min-height: 230px;
+            padding: 0.4rem 0 0.2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 24px;
+        }
+
+        .journey-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: end;
+            gap: 0.45rem;
+            min-height: 210px;
+            color: #d8e4ff;
+        }
+
+        .journey-bar {
+            width: min(100%, 3rem);
+            height: var(--bar-height);
+            min-height: 3.25rem;
+            border-radius: 0.9rem 0.9rem 0.45rem 0.45rem;
+            background: linear-gradient(180deg, var(--cyan), var(--magenta));
+            box-shadow: 0 0 18px rgba(59, 227, 207, 0.18);
+        }
+
+        .journey-column.is-current .journey-bar {
+            box-shadow: 0 0 22px rgba(19, 255, 113, 0.28);
+            background: linear-gradient(180deg, var(--electric-green), var(--cyan));
+        }
+
+        .journey-column strong {
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .journey-column span {
+            color: var(--muted);
+            font-size: 0.78rem;
+        }
+
+        .medtech-card h3,
+        .lab-card h3,
+        .note-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.45rem;
+        }
+
+        .medtech-card p,
+        .lab-card p,
+        .note-card p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .medtech-list {
+            list-style: none;
+            display: grid;
+            gap: 0.45rem;
+            margin-top: 0.75rem;
+        }
+
+        .medtech-list li {
+            position: relative;
+            padding-left: 1rem;
+            color: #d5def7;
+            font-size: 0.88rem;
+        }
+
+        .medtech-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--cyan);
+        }
+
+        .lab-card,
+        .note-card {
+            background: var(--surface-2);
+            border: 1px solid rgba(160, 198, 255, 0.18);
+            border-radius: 16px;
+            padding: 1rem;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .lab-card:hover,
+        .note-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(59, 227, 207, 0.46);
+        }
+
+        .note-meta {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 0.7rem;
+            padding: 0.23rem 0.55rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            color: #d8e4ff;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .note-card p {
+            margin-bottom: 0;
+        }
+
         h2 {
             font-family: "Chakra Petch", sans-serif;
             font-size: clamp(1.35rem, 3.2vw, 2.3rem);
@@ -820,6 +972,11 @@
                 grid-template-columns: repeat(2, minmax(200px, 1fr));
             }
 
+            .medtech-grid,
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+
             .about-grid {
                 grid-template-columns: 1fr;
             }
@@ -852,8 +1009,30 @@
             }
 
             .project-grid,
-            .skills-grid {
+            .skills-grid,
+            .medtech-grid,
+            .notes-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .journey-markers,
+            .journey-histogram {
+                grid-template-columns: 1fr;
+            }
+
+            .journey-monitor {
+                padding: 0.9rem;
+            }
+
+            .journey-column {
+                min-height: 0;
+                padding-top: 0.65rem;
+                padding-bottom: 0.65rem;
+            }
+
+            .journey-bar {
+                width: 100%;
+                max-width: none;
             }
 
             .toolkit-grid {
@@ -1052,34 +1231,72 @@
             </div>
         </section>
 
+        <section id="medtech" class="reveal">
+            <div class="section-head">
+                <h2>Medical Tech</h2>
+                <p class="section-note">Where nursing experience meets practical software, cleaner workflows, and secure systems.</p>
+            </div>
+            <div class="medtech-grid">
+                <article class="panel medtech-card">
+                    <h3>What I want to build</h3>
+                    <p>I’m especially interested in projects that modernise old, clunky software that slows down medical staff. I want to help make documentation easier, reduce admin drag, and build systems that connect cleanly, securely, and reliably across teams.</p>
+                </article>
+                <article class="panel medtech-card">
+                    <h3>Problem areas I care about</h3>
+                    <ul class="medtech-list">
+                        <li>Reducing repetitive documentation and data entry</li>
+                        <li>Making interoperability feel straightforward instead of painful</li>
+                        <li>Building secure, auditable workflows that staff can trust</li>
+                        <li>Designing interfaces that stay usable under pressure</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
         <section id="journey" class="reveal">
             <div class="section-head">
                 <h2>Journey</h2>
-                <p class="section-note">A short snapshot of the path I’m building toward.</p>
+                <p class="section-note">A career-swap progress monitor that connects nursing, creative work, homelabbing, and software.</p>
             </div>
-            <div class="journey-grid">
-                <article class="journey-card">
-                    <span class="journey-step">01</span>
-                    <span class="journey-meta">Study</span>
-                    <h3>BSc Computing and IT</h3>
-                    <p>I’m building a foundation in software development, problem solving, and practical digital systems while studying.</p>
-                </article>
-                <article class="journey-card">
-                    <span class="journey-step">02</span>
-                    <span class="journey-meta">Build</span>
-                    <h3>Full Stack and AI Tools</h3>
-                    <p>I like shipping real projects that combine frontend, backend, automation, and AI-assisted workflows that actually help.</p>
-                </article>
-                <article class="journey-card">
-                    <span class="journey-step">03</span>
-                    <span class="journey-meta">Create</span>
-                    <h3>Indie Game and Digital Art</h3>
-                    <p>I want to release a small archaeology-inspired indie game and keep growing my pixel art, editing, and visual asset work.</p>
-                </article>
-            </div>
-            <div class="journey-strip">
-                <strong>What I’m learning right now</strong>
-                <span>How to connect creativity, security, self-hosting, and product thinking into software that feels personal and useful.</span>
+            <div class="journey-monitor">
+                <div class="journey-markers" aria-hidden="true">
+                    <span>nursing</span>
+                    <span>career swap</span>
+                    <span>creative work</span>
+                    <span>homelabbing</span>
+                    <span>software</span>
+                </div>
+                <div class="journey-histogram" aria-label="Career journey progress monitor">
+                    <div class="journey-column" style="--bar-height: 76%;">
+                        <span class="journey-bar"></span>
+                        <strong>Mental health nursing</strong>
+                        <span>foundation</span>
+                    </div>
+                    <div class="journey-column" style="--bar-height: 48%;">
+                        <span class="journey-bar"></span>
+                        <strong>Career swap</strong>
+                        <span>new direction</span>
+                    </div>
+                    <div class="journey-column" style="--bar-height: 60%;">
+                        <span class="journey-bar"></span>
+                        <strong>Creative work</strong>
+                        <span>design thinking</span>
+                    </div>
+                    <div class="journey-column" style="--bar-height: 84%;">
+                        <span class="journey-bar"></span>
+                        <strong>Homelabbing</strong>
+                        <span>systems control</span>
+                    </div>
+                    <div class="journey-column is-current" style="--bar-height: 96%;">
+                        <span class="journey-bar"></span>
+                        <strong>Software</strong>
+                        <span>full stack build</span>
+                    </div>
+                </div>
+                <div class="journey-strip">
+                    <strong>Current direction</strong>
+                    <span>I’m carrying people-first experience into secure, useful software: healthcare, digital sovereignty, self-hosting, and community-facing tools all sit in the same story for me.</span>
+                </div>
             </div>
         </section>
 
@@ -1137,6 +1354,56 @@
                     <div class="toolkit-tile"><img src="https://cdn.simpleicons.org/raspberrypi/A100FF" alt="Raspberry Pi"><span>Raspberry Pi</span></div>
                 </div>
                 <p class="toolkit-legend">This toolkit reflects how I build: open-source first, self-hosted where it makes sense, and tuned for full stack work, game dev, and homelab systems. This list is not exhaustive.</p>
+            </div>
+        </section>
+
+        <section id="labs" class="reveal">
+            <div class="section-head">
+                <h2>Labs</h2>
+                <p class="section-note">The smaller focus areas that shape how I think about infrastructure, trust, and software ownership.</p>
+            </div>
+            <div class="labs-grid">
+                <article class="lab-card">
+                    <h3>Homelab</h3>
+                    <p>Private infrastructure, Docker services, storage, and self-hosted experiments that keep my tools under my control.</p>
+                </article>
+                <article class="lab-card">
+                    <h3>Security</h3>
+                    <p>Practical security, safer workflows, and systems designed to protect people and data without making the product miserable to use.</p>
+                </article>
+                <article class="lab-card">
+                    <h3>Open Source</h3>
+                    <p>Tools, workflows, and community-minded projects that stay transparent, reusable, and easy to build on.
+                    </p>
+                </article>
+                <article class="lab-card">
+                    <h3>Full Stack</h3>
+                    <p>Frontend, backend, deployment, and data systems tied together into software that feels coherent from start to finish.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="notes" class="reveal">
+            <div class="section-head">
+                <h2>Notes</h2>
+                <p class="section-note">Short-form writing, build logs, and ideas I want to keep moving forward.</p>
+            </div>
+            <div class="notes-grid">
+                <article class="note-card">
+                    <span class="note-meta">Digital Sovereignty</span>
+                    <h3>Why local-first tools matter</h3>
+                    <p>Notes on data ownership, self-hosting, and building systems that respect the people who use them.</p>
+                </article>
+                <article class="note-card">
+                    <span class="note-meta">Security</span>
+                    <h3>Useful security, not decorative security</h3>
+                    <p>Thoughts on making secure systems that are still usable for real people doing real work.</p>
+                </article>
+                <article class="note-card">
+                    <span class="note-meta">Build Log</span>
+                    <h3>Small iterations, shipped often</h3>
+                    <p>Quick write-ups from homelab setups, software tweaks, and the process of turning ideas into working projects.</p>
+                </article>
             </div>
         </section>
 
