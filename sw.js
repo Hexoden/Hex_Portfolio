@@ -65,6 +65,11 @@ function isStreamingMediaRequest(request) {
     return request.headers.has("range") || request.destination === "video" || request.destination === "audio" || mediaPath;
 }
 
+function isDirectMediaPath(request) {
+    const url = new URL(request.url);
+    return url.pathname.includes("/Media/");
+}
+
 function isStaticRequest(request) {
     return request.destination === "script" || request.destination === "style" || request.destination === "font";
 }
@@ -102,6 +107,12 @@ self.addEventListener("fetch", (event) => {
     const { request } = event;
 
     if (!isCacheableRequest(request)) {
+        return;
+    }
+
+    // Direct links to local media should never be routed through cache fallback logic.
+    if (isDirectMediaPath(request)) {
+        event.respondWith(fetch(request).catch(() => Response.error()));
         return;
     }
 
