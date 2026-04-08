@@ -66,14 +66,28 @@ function isStaticRequest(request) {
 async function staleWhileRevalidate(request, cacheName) {
     const cache = await caches.open(cacheName);
     const cached = await cache.match(request);
+
+    // Range requests (common for media scrubbing/streaming) should bypass Cache API writes.
+    if (request.headers.has("range")) {
+        try {
+            return await fetch(request);
+        } catch {
+            return cached || Response.error();
+        }
+    }
+
     const networkFetch = fetch(request)
         .then((response) => {
             if (response && (response.ok || response.type === "opaque")) {
-                cache.put(request, response.clone());
+                try {
+                    cache.put(request, response.clone());
+                } catch {
+                    // Ignore cache write failures and still return network response.
+                }
             }
             return response;
         })
-        .catch(() => cached);
+        .catch(() => cached || Response.error());
 
     return cached || networkFetch;
 }
@@ -98,14 +112,24 @@ self.addEventListener("fetch", (event) => {
 
                 try {
                     const response = await fetch(request);
-                    cache.put(request, response.clone());
+                    try {
+                        cache.put(request, response.clone());
+                    } catch {
+                        // Ignore cache write failures and still serve network response.
+                    }
                     return response;
                 } catch {
                     const cached = await caches.match(request);
-                    return cached || caches.match("./index.html");
+                    const fallback = await caches.match("./index.html");
+                    return cached || fallback || Response.error();
                 }
             })()
         );
+        return;
+    }
+
+    if (request.headers.has("range")) {
+        event.respondWith(fetch(request).catch(() => Response.error()));
         return;
     }
 
@@ -125,11 +149,20 @@ self.addEventListener("fetch", (event) => {
                 .then((response) => {
                     if (response && (response.status === 200 || response.type === "opaque")) {
                         const copy = response.clone();
-                        caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, copy));
+                        caches
+                            .open(RUNTIME_CACHE)
+                            .then((cache) => {
+                                try {
+                                    cache.put(request, copy);
+                                } catch {
+                                    // Ignore cache write failures and still return network response.
+                                }
+                            })
+                            .catch(() => {});
                     }
                     return response;
                 })
-                .catch(() => cached);
+                .catch(() => cached || Response.error());
 
             return cached || networkFetch;
         })
