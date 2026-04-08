@@ -4,7 +4,6 @@
 
     const defaultSettings = {
         enabled: false,
-        plainText: true,
         theme: "paper",
         fontScale: 1,
         lineHeight: 1.75,
@@ -87,7 +86,6 @@
 
     const controlIds = {
         enabled: "accessibility-enabled",
-        plainText: "accessibility-plain-text",
         theme: "accessibility-theme",
         fontScale: "accessibility-font-size",
         lineHeight: "accessibility-line-height",
@@ -108,7 +106,6 @@
                 ...defaultSettings,
                 ...parsed,
                 enabled: Boolean(parsed.enabled),
-                plainText: parsed.plainText !== false,
                 theme: themes[parsed.theme] ? parsed.theme : defaultSettings.theme,
                 fontScale: clampNumber(parsed.fontScale, 0.9, 1.7, defaultSettings.fontScale),
                 lineHeight: clampNumber(parsed.lineHeight, 1.35, 2.1, defaultSettings.lineHeight),
@@ -142,9 +139,9 @@
         const pageType = document.body?.dataset.accessibilityPage || (location.pathname.endsWith("accessibility.html") ? "settings" : "site");
 
         root.classList.toggle("accessibility-mode", active);
-        root.classList.toggle("accessibility-plain-text", active && settings.plainText);
+        root.classList.toggle("accessibility-plain-text", active);
         root.dataset.accessibilityMode = active ? "true" : "false";
-        root.dataset.accessibilityPlainText = active && settings.plainText ? "true" : "false";
+        root.dataset.accessibilityPlainText = active ? "true" : "false";
         root.dataset.accessibilityPage = pageType;
         root.dataset.accessibilityTheme = settings.theme;
         root.style.setProperty("--accessibility-font-scale", String(settings.fontScale));
@@ -526,7 +523,7 @@ html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="
     display: none !important;
 }
 
-html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="site"] .accessibility-media-link {
+html.accessibility-mode[data-accessibility-page="site"] .accessibility-media-link {
     display: inline !important;
     color: var(--text) !important;
     text-decoration: underline !important;
@@ -534,6 +531,21 @@ html.accessibility-mode:not(.accessibility-plain-text)[data-accessibility-page="
     pointer-events: auto !important;
     position: relative !important;
     z-index: 3 !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] .accessibility-site-links-section {
+    display: block !important;
+    margin: 0.7rem 0 1rem !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] .accessibility-site-links-list {
+    margin: 0 !important;
+    padding-left: 1.1rem !important;
+}
+
+html.accessibility-mode[data-accessibility-page="site"] .accessibility-site-links-list li {
+    list-style: disc !important;
+    margin: 0 0 0.25rem !important;
 }
 
 html.accessibility-mode.accessibility-plain-text .hero,
@@ -741,7 +753,6 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
 
     function reflectControls(settings) {
         const enabled = document.getElementById(controlIds.enabled);
-        const plainText = document.getElementById(controlIds.plainText);
         const theme = document.getElementById(controlIds.theme);
         const fontScale = document.getElementById(controlIds.fontScale);
         const lineHeight = document.getElementById(controlIds.lineHeight);
@@ -750,9 +761,6 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
 
         if (enabled) {
             enabled.checked = settings.enabled;
-        }
-        if (plainText) {
-            plainText.checked = settings.plainText;
         }
         if (theme) {
             theme.value = settings.theme;
@@ -778,7 +786,6 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
         };
 
         next.enabled = Boolean(next.enabled);
-        next.plainText = Boolean(next.plainText);
         next.theme = themes[next.theme] ? next.theme : defaultSettings.theme;
         next.fontScale = clampNumber(next.fontScale, 0.9, 1.7, defaultSettings.fontScale);
         next.lineHeight = clampNumber(next.lineHeight, 1.35, 2.1, defaultSettings.lineHeight);
@@ -786,6 +793,7 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
         saveSettings(next);
         applyPalette(next);
         syncMediaLinks(next);
+        syncSiteLinks(next);
         syncToolkitList(next);
         reflectControls(next);
         return next;
@@ -798,6 +806,10 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
 
     function cleanupToolkitList() {
         document.querySelectorAll(".accessibility-toolkit-list").forEach((list) => list.remove());
+    }
+
+    function cleanupSiteLinks() {
+        document.querySelectorAll(".accessibility-site-links-section").forEach((section) => section.remove());
     }
 
     function nearestContentLabel(element) {
@@ -862,7 +874,7 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
         cleanupMediaLinks();
 
         const pageType = document.documentElement.dataset.accessibilityPage || "site";
-        if (!settings.enabled || settings.plainText || pageType !== "site") {
+        if (!settings.enabled || pageType !== "site") {
             return;
         }
 
@@ -899,6 +911,67 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
             const label = `Open video from ${nearestContentLabel(video)}`;
             createMediaLink(src, label);
         });
+    }
+
+    function syncSiteLinks(settings) {
+        cleanupSiteLinks();
+
+        const pageType = document.documentElement.dataset.accessibilityPage || "site";
+        if (!settings.enabled || pageType !== "site") {
+            return;
+        }
+
+        const main = document.querySelector("main") || document.querySelector("body");
+        if (!main) {
+            return;
+        }
+
+        const seen = new Set();
+        const links = Array.from(document.querySelectorAll("a[href]"))
+            .map((anchor) => {
+                const href = anchor.getAttribute("href");
+                if (!href || href.startsWith("#") || href.startsWith("javascript:")) {
+                    return null;
+                }
+
+                const absoluteHref = new URL(href, window.location.href).href;
+                if (seen.has(absoluteHref)) {
+                    return null;
+                }
+                seen.add(absoluteHref);
+
+                const label = (anchor.textContent || "").trim() || absoluteHref;
+                return { label, href: absoluteHref };
+            })
+            .filter(Boolean);
+
+        if (links.length === 0) {
+            return;
+        }
+
+        const section = document.createElement("section");
+        section.className = "accessibility-site-links-section";
+
+        const title = document.createElement("h3");
+        title.textContent = "Site Links";
+        section.appendChild(title);
+
+        const list = document.createElement("ul");
+        list.className = "accessibility-site-links-list";
+
+        links.forEach((entry) => {
+            const item = document.createElement("li");
+            const link = document.createElement("a");
+            link.href = entry.href;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = entry.label;
+            item.appendChild(link);
+            list.appendChild(item);
+        });
+
+        section.appendChild(list);
+        main.appendChild(section);
     }
 
     function syncToolkitList(settings) {
@@ -943,22 +1016,17 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
 
     function bindControls() {
         const enabled = document.getElementById(controlIds.enabled);
-        const plainText = document.getElementById(controlIds.plainText);
         const theme = document.getElementById(controlIds.theme);
         const fontScale = document.getElementById(controlIds.fontScale);
         const lineHeight = document.getElementById(controlIds.lineHeight);
         const reset = document.getElementById(controlIds.reset);
 
-        if (!enabled && !plainText && !theme && !fontScale && !lineHeight && !reset) {
+        if (!enabled && !theme && !fontScale && !lineHeight && !reset) {
             return;
         }
 
         enabled?.addEventListener("change", () => {
             updateSettings({ enabled: enabled.checked });
-        });
-
-        plainText?.addEventListener("change", () => {
-            updateSettings({ plainText: plainText.checked });
         });
 
         theme?.addEventListener("change", () => {
@@ -985,6 +1053,7 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
         const settings = readSettings();
         applyPalette(settings);
         syncMediaLinks(settings);
+        syncSiteLinks(settings);
         syncToolkitList(settings);
         reflectControls(settings);
         bindControls();
