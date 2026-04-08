@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Viewer | Hexoden.dev</title>
+    <meta name="referrer" content="no-referrer">
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #090b11;
+            --surface: #111625;
+            --line: rgba(160, 198, 255, 0.2);
+            --text: #edf3ff;
+            --muted: #a9b6d4;
+            --accent: #3be3cf;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(59, 227, 207, 0.12), transparent 35%),
+                radial-gradient(circle at top right, rgba(255, 106, 213, 0.1), transparent 30%),
+                var(--bg);
+        }
+
+        main {
+            width: min(1100px, 92vw);
+            margin: 0 auto;
+            padding: 1.25rem 0 2rem;
+        }
+
+        .panel {
+            border: 1px solid var(--line);
+            background: rgba(17, 22, 37, 0.92);
+            border-radius: 1rem;
+            padding: 1rem;
+            box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(1.3rem, 3vw, 2rem);
+        }
+
+        a {
+            color: var(--accent);
+        }
+
+        .meta {
+            color: var(--muted);
+            margin: 0.25rem 0 0;
+        }
+
+        .frame {
+            display: grid;
+            gap: 1rem;
+            justify-items: center;
+        }
+
+        img,
+        video,
+        audio {
+            max-width: 100%;
+        }
+
+        img,
+        video {
+            width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 0.9rem;
+            background: #000;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .loading,
+        .error {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 0.9rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .error {
+            border-color: rgba(255, 120, 120, 0.35);
+            color: #ffd4d4;
+        }
+
+        .fallback {
+            margin-top: 0.75rem;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="panel">
+            <div class="topbar">
+                <div>
+                    <h1>Media Viewer</h1>
+                    <p class="meta" id="meta">Loading media...</p>
+                </div>
+                <div><a id="open-original" href="#">Open original file</a></div>
+            </div>
+            <div class="frame" id="frame">
+                <div class="loading" id="status">Loading media...</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const source = params.get("src");
+        const frame = document.getElementById("frame");
+        const status = document.getElementById("status");
+        const meta = document.getElementById("meta");
+        const openOriginal = document.getElementById("open-original");
+
+        function fail(message) {
+            status.className = "error";
+            status.textContent = message;
+            frame.replaceChildren(status);
+        }
+
+        if (!source) {
+            fail("No media source was provided.");
+        } else {
+            const sourceUrl = new URL(source, window.location.href);
+            const sameOriginMedia = sourceUrl.origin === window.location.origin && sourceUrl.pathname.includes("/Media/");
+
+            if (!sameOriginMedia) {
+                fail("This viewer only opens local portfolio media.");
+            } else {
+                openOriginal.href = sourceUrl.href;
+                meta.textContent = sourceUrl.pathname.split("/").pop() || sourceUrl.href;
+
+                fetch(sourceUrl.href, { cache: "no-store" })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`Failed to load ${sourceUrl.href}`);
+                        }
+
+                        const contentType = response.headers.get("content-type") || "";
+                        const path = sourceUrl.pathname.toLowerCase();
+
+                        if (contentType.startsWith("image/") || /\.(avif|bmp|gif|jpe?g|png|webp|svg)$/i.test(path)) {
+                            return response.blob().then((blob) => {
+                                const image = document.createElement("img");
+                                image.alt = sourceUrl.pathname.split("/").pop() || "Media preview";
+                                image.src = URL.createObjectURL(blob);
+                                image.addEventListener("load", () => {
+                                    window.setTimeout(() => URL.revokeObjectURL(image.src), 60_000);
+                                }, { once: true });
+                                frame.replaceChildren(image);
+                            });
+                        }
+
+                        if (contentType.startsWith("video/") || /\.(mp4|webm|ogg)$/i.test(path)) {
+                            return response.blob().then((blob) => {
+                                const video = document.createElement("video");
+                                video.controls = true;
+                                video.playsInline = true;
+                                video.src = URL.createObjectURL(blob);
+                                video.addEventListener("loadeddata", () => {
+                                    window.setTimeout(() => URL.revokeObjectURL(video.src), 60_000);
+                                }, { once: true });
+                                frame.replaceChildren(video);
+                            });
+                        }
+
+                        if (contentType.startsWith("audio/") || /\.(mp3|wav|m4a|flac|aac)$/i.test(path)) {
+                            return response.blob().then((blob) => {
+                                const audio = document.createElement("audio");
+                                audio.controls = true;
+                                audio.src = URL.createObjectURL(blob);
+                                audio.addEventListener("loadeddata", () => {
+                                    window.setTimeout(() => URL.revokeObjectURL(audio.src), 60_000);
+                                }, { once: true });
+                                frame.replaceChildren(audio);
+                            });
+                        }
+
+                        return response.text().then((text) => {
+                            const pre = document.createElement("pre");
+                            pre.className = "error";
+                            pre.textContent = text.slice(0, 4000) || "Unsupported media type.";
+                            frame.replaceChildren(pre);
+                        });
+                    })
+                    .catch(() => fail(`Unable to load ${sourceUrl.href}`));
+            }
+        }
+    </script>
+</body>
+</html>

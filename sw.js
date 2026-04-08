@@ -8,6 +8,7 @@ const PRECACHE_URLS = [
     "./index.html",
     "./accessibility.html",
     "./accessibility.js",
+    "./media-viewer.html",
     "./christopher-ai-project.html",
     "./commanddb-project.html",
     "./homelab-report.html",
