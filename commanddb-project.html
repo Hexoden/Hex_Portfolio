@@ -183,6 +183,50 @@
             object-fit: cover;
         }
 
+        .screens img {
+            cursor: zoom-in;
+        }
+
+        .image-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem;
+            background: rgba(3, 5, 10, 0.86);
+            z-index: 40;
+        }
+
+        .image-modal.open {
+            display: flex;
+        }
+
+        .image-modal img {
+            max-width: min(1100px, 96vw);
+            max-height: 88vh;
+            width: auto;
+            height: auto;
+            aspect-ratio: auto;
+            object-fit: contain;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 14px;
+            box-shadow: 0 28px 80px rgba(0, 0, 0, 0.55);
+            background: #06080f;
+        }
+
+        .image-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            background: rgba(8, 12, 22, 0.92);
+            color: #eef4ff;
+            padding: 0.45rem 0.75rem;
+            cursor: pointer;
+        }
+
         figcaption {
             font-size: 0.78rem;
             color: #c9d7f6;
@@ -352,19 +396,24 @@
 
         <section class="screens">
             <figure>
-                <img src="Media/Projects/CommandDB/quick_add_search.webp" alt="CommandDB quick add search screenshot" loading="lazy" decoding="async">
+                <img class="js-enlarge" src="Media/Projects/CommandDB/quick_add_search.webp" alt="CommandDB quick add search screenshot" data-fullsrc="Media/Projects/CommandDB/quick_add_search.webp" loading="lazy" decoding="async">
                 <figcaption>Quick launcher search view</figcaption>
             </figure>
             <figure>
-                <img src="Media/Projects/CommandDB/Visualdatabase_cardview.webp" alt="CommandDB visual dashboard screenshot" loading="lazy" decoding="async">
+                <img class="js-enlarge" src="Media/Projects/CommandDB/Visualdatabase_cardview.webp" alt="CommandDB visual dashboard screenshot" data-fullsrc="Media/Projects/CommandDB/Visualdatabase_cardview.webp" loading="lazy" decoding="async">
                 <figcaption>Visual dashboard card mode</figcaption>
             </figure>
             <figure>
-                <img src="Media/Projects/CommandDB/Web_command_harvester.webp" alt="CommandDB web command harvester screenshot" loading="lazy" decoding="async">
+                <img class="js-enlarge" src="Media/Projects/CommandDB/Web_command_harvester.webp" alt="CommandDB web command harvester screenshot" data-fullsrc="Media/Projects/CommandDB/Web_command_harvester.webp" loading="lazy" decoding="async">
                 <figcaption>Web harvester importer tool</figcaption>
             </figure>
         </section>
     </main>
+
+    <div class="image-modal" id="image-modal" aria-hidden="true">
+        <button class="image-modal-close" id="image-modal-close" type="button" aria-label="Close enlarged image">Close</button>
+        <img id="image-modal-img" src="" alt="">
+    </div>
 
     <script>
         const codeOverlay = document.querySelector(".code-overlay");
@@ -473,6 +522,51 @@
             scheduleCodeLine();
             scheduleBurst();
         }
+
+        const imageModal = document.getElementById("image-modal");
+        const imageModalImg = document.getElementById("image-modal-img");
+        const imageModalClose = document.getElementById("image-modal-close");
+
+        function openImageModal(src, alt) {
+            if (!imageModal || !imageModalImg) {
+                return;
+            }
+
+            imageModalImg.src = src;
+            imageModalImg.alt = alt;
+            imageModal.classList.add("open");
+            imageModal.setAttribute("aria-hidden", "false");
+        }
+
+        function closeImageModal() {
+            if (!imageModal || !imageModalImg) {
+                return;
+            }
+
+            imageModal.classList.remove("open");
+            imageModal.setAttribute("aria-hidden", "true");
+            imageModalImg.src = "";
+        }
+
+        document.querySelectorAll(".js-enlarge").forEach((img) => {
+            img.addEventListener("click", () => {
+                const src = img.dataset.fullsrc || img.currentSrc || img.src;
+                openImageModal(src, img.alt || "Enlarged screenshot");
+            });
+        });
+
+        imageModalClose?.addEventListener("click", closeImageModal);
+        imageModal?.addEventListener("click", (event) => {
+            if (event.target === imageModal) {
+                closeImageModal();
+            }
+        });
+
+        window.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && imageModal?.classList.contains("open")) {
+                closeImageModal();
+            }
+        });
 
         if ("serviceWorker" in navigator) {
             window.addEventListener("load", () => {
