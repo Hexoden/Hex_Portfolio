@@ -216,7 +216,7 @@ nav {
     font-weight: 500;
     text-decoration: none;
     transition: all 0.25s ease;
-    background: rgba(59, 227, 207, 0.03);
+    background: rgba(59, 227, 207, 0.15);
 }
 
 .funding-bar a:hover {
