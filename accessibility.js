@@ -815,6 +815,7 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
         }
 
         const absoluteUrl = new URL(url, window.location.href).href;
+        const isLocalMedia = new URL(absoluteUrl).origin === window.location.origin && new URL(absoluteUrl).pathname.includes("/Media/");
         const main = document.querySelector("main") || document.querySelector("body");
         if (!main) {
             return;
@@ -850,7 +851,37 @@ html.accessibility-mode[data-accessibility-page="site"] .chip {
         link.rel = "noopener noreferrer";
         link.textContent = label;
         link.addEventListener("click", (event) => {
+            if (!isLocalMedia) {
+                return;
+            }
+
             event.stopPropagation();
+            event.preventDefault();
+
+            const popup = window.open("about:blank", "_blank");
+            if (!popup) {
+                window.location.href = absoluteUrl;
+                return;
+            }
+
+            popup.document.write("<p style='font-family:Arial,Helvetica,sans-serif;padding:16px'>Loading media...</p>");
+
+            fetch(absoluteUrl, { cache: "no-store" })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Failed to load ${absoluteUrl}`);
+                    }
+
+                    return response.blob();
+                })
+                .then((blob) => {
+                    const objectUrl = URL.createObjectURL(blob);
+                    popup.location.replace(objectUrl);
+                    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 60_000);
+                })
+                .catch(() => {
+                    popup.location.replace(absoluteUrl);
+                });
         }, true);
 
         item.appendChild(link);
