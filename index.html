@@ -930,6 +930,24 @@
             cursor: zoom-in;
         }
 
+        .js-enlarge {
+            transition: filter 0.2s ease, transform 0.2s ease;
+        }
+
+        .js-enlarge:hover,
+        .js-enlarge:focus-visible {
+            filter: drop-shadow(0 0 10px rgba(59, 227, 207, 0.72)) drop-shadow(0 0 20px rgba(59, 227, 207, 0.52));
+            transform: scale(1.01);
+        }
+
+        .media-card.hover-caption:has(.js-enlarge:hover),
+        .media-card.hover-caption:has(.js-enlarge:focus-visible),
+        .art-tile:has(.js-enlarge:hover),
+        .art-tile:has(.js-enlarge:focus-visible) {
+            border-color: rgba(59, 227, 207, 0.68);
+            box-shadow: 0 0 0 1px rgba(59, 227, 207, 0.24) inset, 0 0 26px rgba(59, 227, 207, 0.28);
+        }
+
         .media-info {
             padding: 0.75rem 0.85rem 0.9rem;
         }
