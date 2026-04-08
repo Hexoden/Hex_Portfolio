@@ -195,6 +195,41 @@ nav {
     filter: drop-shadow(0 0 10px rgba(59, 227, 207, 0.74));
 }
 
+.funding-bar {
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    padding: 1.2rem 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.funding-bar a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid rgba(59, 227, 207, 0.4);
+    border-radius: 8px;
+    color: var(--cyan);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    background: rgba(59, 227, 207, 0.06);
+}
+
+.funding-bar a:hover {
+    background: rgba(59, 227, 207, 0.15);
+    border-color: rgba(59, 227, 207, 0.75);
+    box-shadow: 0 0 12px rgba(59, 227, 207, 0.25);
+}
+
+.funding-icon {
+    font-size: 1.1em;
+    display: inline-block;
+}
+
 header {
     padding: 6.8rem 0 4.2rem;
 }
