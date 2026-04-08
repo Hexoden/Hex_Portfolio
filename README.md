@@ -25,11 +25,16 @@ This is a static multi-page site (HTML/CSS/JS) with no build step required.
 	- Applies site-wide accessibility modes (theme, text mode, font scale, line-height)
 	- Persists settings in localStorage
 	- Dynamically adapts media/toolkit display for accessibility contexts
+	- Routes local media links through the same-origin `media-viewer.html` page
 
 - `sw.js`
 	- Service worker for offline/performance caching
 	- Uses targeted caches for runtime, static assets, and media
 	- Pre-caches key pages and core media
+
+- `media-viewer.html`
+	- Lightweight local viewer for images, video, and audio
+	- Used by accessibility mode to avoid direct navigation to `/Media/*`
 
 - `code-snippets.js`
 	- Provides rotating code-line snippets for the hero overlay effect
@@ -53,6 +58,7 @@ This is a static multi-page site (HTML/CSS/JS) with no build step required.
 - Toggleable reading/plain-text mode
 - Theme palettes: paper, sepia, contrast, dusk
 - Adjustable font scaling and line-height
+- Local media links in accessibility mode open through `media-viewer.html`
 
 ## Local Development
 
