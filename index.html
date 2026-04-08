@@ -168,48 +168,37 @@
             background: rgba(255, 255, 255, 0.06);
         }
 
-        .nav-links a,
-        .btn,
         .project-link,
-        .note-link,
-        .contact-links a {
+        .note-link .note-card {
             position: relative;
             overflow: hidden;
             isolation: isolate;
         }
 
-        .nav-links a::after,
-        .btn::after,
         .project-link::after,
-        .note-link::after,
-        .contact-links a::after {
+        .note-link .note-card::after {
             content: "";
             position: absolute;
             top: 0;
             right: 0;
-            width: 0.95rem;
-            height: 0.95rem;
+            width: 0;
+            height: 0;
             background:
                 linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0 50%, rgba(255, 255, 255, 0) 50%),
                 linear-gradient(135deg, rgba(59, 227, 207, 0.72), rgba(19, 255, 113, 0.42));
             clip-path: polygon(100% 0, 0 0, 100% 100%);
             pointer-events: none;
-            opacity: 0.9;
-            transition: opacity 0.18s ease, transform 0.18s ease;
+            opacity: 0;
+            transition: width 0.22s ease, height 0.22s ease, opacity 0.18s ease;
         }
 
-        .nav-links a:hover::after,
-        .nav-links a:focus-visible::after,
-        .btn:hover::after,
-        .btn:focus-visible::after,
         .project-link:hover::after,
         .project-link:focus-visible::after,
-        .note-link:hover::after,
-        .note-link:focus-visible::after,
-        .contact-links a:hover::after,
-        .contact-links a:focus-visible::after {
+        .note-link:hover .note-card::after,
+        .note-link:focus-visible .note-card::after {
             opacity: 1;
-            transform: translate(1px, -1px);
+            width: 1rem;
+            height: 1rem;
         }
 
         header {
