@@ -605,66 +605,6 @@ html.accessibility-mode a:focus-visible {
     background: transparent !important;
 }
 
-.nav-links a,
-.back-link,
-.peer-link,
-.repo-link,
-.btn,
-.button,
-.project-link,
-.note-link,
-.contact-links a {
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
-}
-
-.nav-links a::after,
-.back-link::after,
-.peer-link::after,
-.repo-link::after,
-.btn::after,
-.button::after,
-.project-link::after,
-.note-link::after,
-.contact-links a::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 0.95rem;
-    height: 0.95rem;
-    background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0 50%, rgba(255, 255, 255, 0) 50%),
-        linear-gradient(135deg, rgba(59, 227, 207, 0.72), rgba(19, 255, 113, 0.42));
-    clip-path: polygon(100% 0, 0 0, 100% 100%);
-    pointer-events: none;
-    opacity: 0.9;
-    transition: opacity 0.18s ease, transform 0.18s ease;
-}
-
-.nav-links a:hover::after,
-.nav-links a:focus-visible::after,
-.back-link:hover::after,
-.back-link:focus-visible::after,
-.peer-link:hover::after,
-.peer-link:focus-visible::after,
-.repo-link:hover::after,
-.repo-link:focus-visible::after,
-.btn:hover::after,
-.btn:focus-visible::after,
-.button:hover::after,
-.button:focus-visible::after,
-.project-link:hover::after,
-.project-link:focus-visible::after,
-.note-link:hover::after,
-.note-link:focus-visible::after,
-.contact-links a:hover::after,
-.contact-links a:focus-visible::after {
-    opacity: 1;
-    transform: translate(1px, -1px);
-}
-
 html.accessibility-mode .btn,
 html.accessibility-mode .peer-link,
 html.accessibility-mode .back-link,
