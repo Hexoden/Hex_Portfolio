@@ -1,7 +1,7 @@
-const CACHE_VERSION = "hexoden-cache-v11";
-const RUNTIME_CACHE = "hexoden-runtime-v11";
-const ASSET_CACHE = "hexoden-assets-v11";
-const MEDIA_CACHE = "hexoden-media-v11";
+const CACHE_VERSION = "hexoden-cache-v12";
+const RUNTIME_CACHE = "hexoden-runtime-v12";
+const ASSET_CACHE = "hexoden-assets-v12";
+const MEDIA_CACHE = "hexoden-media-v12";
 
 const PRECACHE_URLS = [
     "./",
@@ -59,6 +59,12 @@ function isMediaRequest(request) {
     return request.destination === "image" || request.destination === "video";
 }
 
+function isStreamingMediaRequest(request) {
+    const url = new URL(request.url);
+    const mediaPath = /\.(mp4|webm|ogg|mp3|wav|m4a)$/i.test(url.pathname);
+    return request.headers.has("range") || request.destination === "video" || request.destination === "audio" || mediaPath;
+}
+
 function isStaticRequest(request) {
     return request.destination === "script" || request.destination === "style" || request.destination === "font";
 }
@@ -99,6 +105,17 @@ self.addEventListener("fetch", (event) => {
         return;
     }
 
+    // Streaming media is fetched directly to avoid Cache API edge cases.
+    if (isStreamingMediaRequest(request)) {
+        event.respondWith(
+            fetch(request).catch(async () => {
+                const cached = await caches.match(request);
+                return cached || Response.error();
+            })
+        );
+        return;
+    }
+
     if (request.mode === "navigate") {
         event.respondWith(
             (async () => {
@@ -112,11 +129,7 @@ self.addEventListener("fetch", (event) => {
 
                 try {
                     const response = await fetch(request);
-                    try {
-                        cache.put(request, response.clone());
-                    } catch {
-                        // Ignore cache write failures and still serve network response.
-                    }
+                    cache.put(request, response.clone()).catch(() => {});
                     return response;
                 } catch {
                     const cached = await caches.match(request);
@@ -125,11 +138,6 @@ self.addEventListener("fetch", (event) => {
                 }
             })()
         );
-        return;
-    }
-
-    if (request.headers.has("range")) {
-        event.respondWith(fetch(request).catch(() => Response.error()));
         return;
     }
 
@@ -152,11 +160,7 @@ self.addEventListener("fetch", (event) => {
                         caches
                             .open(RUNTIME_CACHE)
                             .then((cache) => {
-                                try {
-                                    cache.put(request, copy);
-                                } catch {
-                                    // Ignore cache write failures and still return network response.
-                                }
+                                cache.put(request, copy).catch(() => {});
                             })
                             .catch(() => {});
                     }
