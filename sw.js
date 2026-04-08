@@ -1,7 +1,7 @@
-const CACHE_VERSION = "hexoden-cache-v12";
-const RUNTIME_CACHE = "hexoden-runtime-v12";
-const ASSET_CACHE = "hexoden-assets-v12";
-const MEDIA_CACHE = "hexoden-media-v12";
+const CACHE_VERSION = "hexoden-cache-v13";
+const RUNTIME_CACHE = "hexoden-runtime-v13";
+const ASSET_CACHE = "hexoden-assets-v13";
+const MEDIA_CACHE = "hexoden-media-v13";
 
 const PRECACHE_URLS = [
     "./",
@@ -9,6 +9,7 @@ const PRECACHE_URLS = [
     "./accessibility.html",
     "./accessibility.js",
     "./media-viewer.html",
+    "./favicon.ico",
     "./christopher-ai-project.html",
     "./commanddb-project.html",
     "./homelab-report.html",
@@ -132,7 +133,25 @@ self.addEventListener("fetch", (event) => {
         event.respondWith(
             (async () => {
                 const cache = await caches.open(RUNTIME_CACHE);
+                const cached = await caches.match(request);
                 const preloadResponse = await event.preloadResponse;
+
+                const refreshPromise = preloadResponse || fetch(request);
+                event.waitUntil(
+                    refreshPromise
+                        .then((response) => {
+                            if (response && (response.ok || response.type === "opaque")) {
+                                return cache.put(request, response.clone()).catch(() => {});
+                            }
+
+                            return undefined;
+                        })
+                        .catch(() => {})
+                );
+
+                if (cached) {
+                    return cached;
+                }
 
                 if (preloadResponse) {
                     cache.put(request, preloadResponse.clone());
@@ -144,9 +163,8 @@ self.addEventListener("fetch", (event) => {
                     cache.put(request, response.clone()).catch(() => {});
                     return response;
                 } catch {
-                    const cached = await caches.match(request);
                     const fallback = await caches.match("./index.html");
-                    return cached || fallback || Response.error();
+                    return fallback || Response.error();
                 }
             })()
         );
