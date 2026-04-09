@@ -197,7 +197,8 @@ nav {
 
 .funding-bar {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     gap: 1.2rem;
     padding: 0.6rem 1rem 0.6rem;
     margin-bottom: 1rem;
@@ -1164,7 +1165,8 @@ h2 {
 }
 
 .visitor-badge-container {
-    margin: 1.2rem 0 1rem 0;
+    display: flex;
+    align-items: center;
 }
 
 .visitor-badge {
