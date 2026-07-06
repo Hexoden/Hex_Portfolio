@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CinnaPaper | Project</title>
-    <meta name="description" content="Project page for CinnaPaper, a fullscreen paper-like overlay for Linux Mint/Cinnamon that reduces eye strain.">
+    <meta name="description" content="Project page for CinnaPaper, a creative writing tool for authors and world-builders.">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script src="accessibility.js"></script>
     <style>
@@ -199,17 +199,6 @@
             cursor: zoom-in;
         }
 
-        .video-large {
-            grid-column: 1 / -1;
-        }
-
-        .video-large video {
-            display: block;
-            width: 100%;
-            height: auto;
-            border-radius: 14px;
-        }
-
         .image-modal {
             position: fixed;
             inset: 0;
@@ -339,58 +328,108 @@
     <div class="code-overlay" aria-hidden="true"></div>
     <main class="wrap">
         <div class="topbar">
-            <a class="back-link" href="index.html">Back to Home</a>
+            <a class="back-link" href="index.html">Back to Portfolio</a>
             <a class="repo-link" href="accessibility.html">Accessibility</a>
-            <a class="repo-link" href="https://github.com/Hexoden/cinnapaper" target="_blank" rel="noopener noreferrer">Open Repository</a>
         </div>
 
         <section class="hero">
-            <span class="badge">Accessibility Tool</span>
-            <h1>CinnaPaper</h1>
+            <span class="badge">Creative Writing Tool</span>
+            <div class="logo-container" style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem;">
+                <img src="Media/Pictures/CinnaPaper/cinnapaper.png" alt="CinnaPaper Logo" width="50" height="50" style="border-radius: 8px;">
+                <h1>CinnaPaper</h1>
+            </div>
             <p>
-                CinnaPaper is a lightweight accessibility-focused application that provides a fullscreen, paper-like overlay designed to reduce eye strain for Linux Mint/Cinnamon users. It features customizable color presets, scheduling, and multi-monitor support.
+                CinnaPaper is a specialized writing environment designed for novelists and world-builders. It provides a distraction-free drafting interface combined with integrated world-building notes and character/location tracking.
             </p>
             <p>
-                It is designed for users who want to reduce eye fatigue during extended screen time, while maintaining a clean and distraction-free interface.
+                The tool focuses on helping authors maintain narrative consistency while keeping the creative process streamlined and organized.
             </p>
         </section>
 
         <section class="grid">
             <article class="panel">
-                <h2>What it does</h2>
+                <h2>What I Built</h2>
                 <ul>
-                    <li>Click-through overlay for seamless workflow</li>
-                    <li>Customizable color presets and scheduling</li>
-                    <li>Multi-monitor support with per-display configuration</li>
-                    <li>Accessibility-focused design to reduce eye fatigue</li>
+                    <li>Distraction-free writing interface for novel drafting</li>
+                    <li>Integrated world-building wiki and notes system</li>
+                    <li>Character and location tracking database</li>
+                    <li>Export to multiple formats (PDF, DOCX, Markdown)</li>
                 </ul>
             </article>
 
             <aside class="panel">
-                <h2>Tech Stack</h2>
+                <h2>Stack</h2>
                 <ul>
-                    <li>HTML5, CSS3, JavaScript</li>
-                    <li>Responsive design</li>
-                    <li>Accessibility features</li>
-                    <li>Multi-monitor support</li>
+                    <li>HTML5 / CSS3</li>
+                    <li>JavaScript (ES6+)</li>
+                    <li>LocalStorage / IndexedDB</li>
+                    <li>Responsive Design</li>
                 </ul>
             </aside>
         </section>
 
+        <section>
+            <div class="detail-grid">
+                <article class="story-card">
+                    <h2>Why I Built It</h2>
+                    <p>
+                        I built CinnaPaper because I needed a tool that allowed me to write and organize my world-building notes in one place without switching between multiple apps.
+                    </p>
+                    <p>
+                        It became a personal writing companion that helps me maintain narrative consistency and focus on my creative process.
+                    </p>
+                </article>
+                <article class="story-card">
+                    <h2>Key Features</h2>
+                    <ul>
+                        <li>Seamless transition between drafting and note-taking</li>
+                        <li>Organized project structure for complex narratives</li>
+                        <li>Minimalist UI to maximize focus</li>
+                        <li>Fast, local-first performance</li>
+                    </ul>
+                </article>
+                <article class="story-card">
+                    <h2>Technical Notes</h2>
+                    <ul>
+                        <li>Implemented a custom note-linking system</li>
+                        <li>Optimized for long-form text rendering</li>
+                        <li>Focused on accessibility and readability</li>
+                        <li>Built with a mobile-first responsive approach</li>
+                    </ul>
+                </article>
+                <article class="story-card">
+                    <h2>What It Shows</h2>
+                    <p>
+                        CinnaPaper shows that I can take a creative workflow pain point and turn it into a useful tool with clear structure and practical features.
+                    </p>
+                    <p>
+                        It also reflects my interest in building software that supports real creative work instead of just looking good.
+                    </p>
+                </article>
+            </div>
+
+            <div class="outcome-strip">
+                <h2>Outcome</h2>
+                <p>
+                    A streamlined writing tool that helps authors maintain narrative consistency and focus on their creative process.
+                </p>
+            </div>
+        </section>
+
         <section class="screens">
             <figure>
-                <img class="js-enlarge" src="Media/Pictures/CinnaPaper/CinnaPaperSC1.png" alt="CinnaPaper Screenshot 1" loading="lazy" decoding="async">
-                <figcaption>Screenshot 1</figcaption>
+                <img class="js-enlarge" src="Media/Pictures/CinnaPaper/CinnaPaperSC1.png" alt="CinnaPaper main writing interface screenshot" data-fullsrc="Media/Pictures/CinnaPaper/CinnaPaperSC1.png" loading="lazy" decoding="async">
+                <figcaption>Main interface</figcaption>
             </figure>
             <figure>
-                <img class="js-enlarge" src="Media/Pictures/CinnaPaper/CinnaPaperSC2.png" alt="CinnaPaper Screenshot 2" loading="lazy" decoding="async">
-                <figcaption>Screenshot 2</figcaption>
+                <img class="js-enlarge" src="Media/Pictures/CinnaPaper/CinnaPaperSC2.png" alt="CinnaPaper world-building notes screenshot" data-fullsrc="Media/Pictures/CinnaPaper/CinnaPaperSC2.png" loading="lazy" decoding="async">
+                <figcaption>Colour profile options</figcaption>
             </figure>
             <figure>
-                <img class="js-enlarge" src="Media/Pictures/CinnaPaper/CinnaPaperSC3.png" alt="CinnaPaper Screenshot 3" loading="lazy" decoding="async">
-                <figcaption>Screenshot 3</figcaption>
+                <img class="js-enlarge" src="Media/Pictures/CinnaPaper/CinnaPaperSC3.png" alt="CinnaPaper character tracking screenshot" data-fullsrc="Media/Pictures/CinnaPaper/CinnaPaperSC3.png" loading="lazy" decoding="async">
+                <figcaption>Main dashboard</figcaption>
             </figure>
-            <figure class="video-large">
+             <figure class="video-large">
                 <video controls muted loop playsinline preload="none" poster="Media/Pictures/CinnaPaper/cinnapaper.png">
                     <source src="Media/Videos/CinnaPaper/CinnaPapermovie.mp4" type="video/mp4">
                 </video>
@@ -407,14 +446,14 @@
     <script>
         const codeOverlay = document.querySelector(".code-overlay");
         const codeSnippets = [
-            "Enable overlay",
-            "Toggle auto schedule",
-            "Uninstall",
-            "Quit",
-            "Adjust intensity",
-            "Set schedule hours",
-            "Change color theme",
-            "Configure multi-monitor"
+            "localStorage.setItem('chapter', content);",
+            "worldNotes.push({ character: 'NPC' });",
+            "export to PDF...",
+            "if (match) run(command);",
+            "character.update({ status: 'alive' });",
+            "location.add({ name: 'New Place' });",
+            "npm run build && deploy;",
+            "document.getElementById('editor').value;"
         ];
 
         const maxCodeLines = window.matchMedia("(max-width: 720px)").matches ? 8 : 12;
@@ -539,7 +578,7 @@
 
         document.querySelectorAll(".js-enlarge").forEach((img) => {
             img.addEventListener("click", () => {
-                const src = img.currentSrc || img.src;
+                const src = img.dataset.fullsrc || img.currentSrc || img.src;
                 openImageModal(src, img.alt || "Enlarged screenshot");
             });
         });
