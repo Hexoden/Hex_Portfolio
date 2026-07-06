@@ -60,7 +60,7 @@ The repo keeps assets local and optimized where possible.
 Run a simple static server from the repo root:
 
 ```powershell
-c:/Users/Hayde/Documents/Hexoden-Portfolio/.venv/Scripts/python.exe -m http.server 8080
+c:/PATH -m http.server 8080
 ```
 
 Open `http://localhost:8080/index.html`.
