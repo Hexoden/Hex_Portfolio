@@ -3,81 +3,565 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CinnaPaper - Hexoden Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preload" href="styles.css" as="style">
+    <title>CinnaPaper | Project</title>
+    <meta name="description" content="Project page for CinnaPaper, a fullscreen paper-like overlay for Linux Mint/Cinnamon that reduces eye strain.">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script src="accessibility.js"></script>
+    <style>
+        :root {
+            --bg: #05060c;
+            --surface: rgba(16, 20, 34, 0.82);
+            --line: rgba(152, 201, 255, 0.22);
+            --text: #e7efff;
+            --muted: #a9b7d8;
+            --cyan: #3be3cf;
+            --amber: #ffbf69;
+            --teal: #00b7ff;
+            --electric-green: #13ff71;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html {
+            min-height: 100%;
+            background: #05060c;
+            overscroll-behavior-y: none;
+        }
+
+        body {
+            font-family: "Sora", "Segoe UI", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 80% 12%, rgba(0, 183, 255, 0.15), transparent 36%),
+                radial-gradient(circle at 10% 82%, rgba(255, 191, 105, 0.14), transparent 34%),
+                linear-gradient(140deg, #05060c 0%, #060a14 55%, #04050b 100%);
+            min-height: 100vh;
+            line-height: 1.62;
+            overflow-x: hidden;
+            overscroll-behavior-y: none;
+        }
+
+        .code-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+            opacity: 0.9;
+            transition: opacity 0.22s ease;
+        }
+
+        .code-line {
+            position: absolute;
+            font-family: "Chakra Petch", "Consolas", monospace;
+            font-size: clamp(0.62rem, 1.05vw, 0.88rem);
+            color: var(--electric-green);
+            opacity: 0;
+            white-space: nowrap;
+            letter-spacing: 0.03em;
+            text-shadow: 0 0 8px rgba(19, 255, 113, 0.66), 0 0 16px rgba(19, 255, 113, 0.35);
+            transform: translateY(4px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            user-select: none;
+        }
+
+        .code-line.visible {
+            opacity: 0.64;
+            transform: translateY(0);
+        }
+
+        .code-line.fading {
+            opacity: 0;
+            transform: translateY(-6px);
+        }
+
+        .wrap {
+            width: min(1020px, 92vw);
+            margin: 0 auto;
+            padding: 2rem 0 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            font-family: "Chakra Petch", sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        .back-link,
+        .repo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.55rem 0.82rem;
+            border-radius: 11px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.04);
+            color: #e8f0ff;
+            text-decoration: none;
+            font-size: 0.88rem;
+            transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .back-link:hover,
+        .back-link:focus-visible,
+        .repo-link:hover,
+        .repo-link:focus-visible {
+            border-color: rgba(59, 227, 207, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 1px rgba(59, 227, 207, 0.24) inset, 0 0 22px rgba(59, 227, 207, 0.28);
+            transform: translateY(-1px);
+        }
+
+        .hero {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: clamp(1.2rem, 3.8vw, 2rem);
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.22rem 0.55rem;
+            font-size: 0.74rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.75rem;
+        }
+
+        h1 {
+            font-family: "Chakra Petch", sans-serif;
+            font-size: clamp(1.7rem, 4.6vw, 3rem);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        p { color: var(--muted); margin-bottom: 0.85rem; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1.35fr 0.65fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 1rem;
+        }
+
+        .panel h2 {
+            font-family: "Chakra Petch", sans-serif;
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+        }
+
+        ul { list-style: none; display: grid; gap: 0.4rem; }
+
+        li::before {
+            content: "> ";
+            color: var(--cyan);
+        }
+
+        .screens {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(160px, 1fr));
+            gap: 0.8rem;
+        }
+
+        figure {
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            background: rgba(6, 8, 17, 0.8);
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+        }
+
+        .screens img {
+            cursor: zoom-in;
+        }
+
+        .video-large {
+            grid-column: 1 / -1;
+        }
+
+        .video-large video {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 14px;
+        }
+
+        .image-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem;
+            background: rgba(3, 5, 10, 0.86);
+            z-index: 40;
+        }
+
+        .image-modal.open {
+            display: flex;
+        }
+
+        .image-modal img {
+            max-width: min(1100px, 96vw);
+            max-height: 88vh;
+            width: auto;
+            height: auto;
+            aspect-ratio: auto;
+            object-fit: contain;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 14px;
+            box-shadow: 0 28px 80px rgba(0, 0, 0, 0.55);
+            background: #06080f;
+        }
+
+        .image-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            background: rgba(8, 12, 22, 0.92);
+            color: #eef4ff;
+            padding: 0.45rem 0.75rem;
+            cursor: pointer;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+
+        .image-modal-close:hover,
+        .image-modal-close:focus-visible {
+            border-color: rgba(59, 227, 207, 0.62);
+            background: rgba(10, 16, 30, 0.96);
+            box-shadow: 0 0 0 1px rgba(59, 227, 207, 0.26) inset, 0 0 18px rgba(59, 227, 207, 0.3);
+        }
+
+        figcaption {
+            font-size: 0.78rem;
+            color: #c9d7f6;
+            padding: 0.5rem 0.6rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .highlight { color: #ffe2af; }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .story-card {
+            background: rgba(8, 12, 22, 0.88);
+            border: 1px solid rgba(152, 201, 255, 0.18);
+            border-radius: 16px;
+            padding: 1rem;
+        }
+
+        .story-card h2 {
+            font-family: "Chakra Petch", sans-serif;
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+        }
+
+        .story-card p {
+            margin-bottom: 0.6rem;
+        }
+
+        .story-card ul {
+            list-style: none;
+            display: grid;
+            gap: 0.4rem;
+            color: #dbe6ff;
+            font-size: 0.92rem;
+        }
+
+        .story-card li::before {
+            content: "> ";
+            color: var(--cyan);
+        }
+
+        .story-card strong {
+            color: var(--text);
+        }
+
+        .outcome-strip {
+            margin-top: 1rem;
+            padding: 1rem 1.1rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 191, 105, 0.28);
+            background: linear-gradient(135deg, rgba(36, 22, 9, 0.72), rgba(10, 14, 25, 0.9));
+        }
+
+        .outcome-strip h2 {
+            font-family: "Chakra Petch", sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .outcome-strip p {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 860px) {
+            .grid { grid-template-columns: 1fr; }
+            .screens { grid-template-columns: 1fr; }
+            .topbar { flex-wrap: wrap; }
+        }
+    </style>
 </head>
 <body>
-    <nav>
-        <div class="nav-inner">
-            <a class="brand" href="#top">Hexoden.dev</a>
-            <div class="nav-links">
-                <a href="#about">About</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
-            </div>
+    <div class="code-overlay" aria-hidden="true"></div>
+    <main class="wrap">
+        <div class="topbar">
+            <a class="back-link" href="index.html">Back to Home</a>
+            <a class="repo-link" href="accessibility.html">Accessibility</a>
+            <a class="repo-link" href="https://github.com/Hexoden/cinnapaper" target="_blank" rel="noopener noreferrer">Open Repository</a>
         </div>
-    </nav>
-    <main id="top" class="wrap">
-        <section id="cinnapaper" class="reveal">
-            <div class="section-head logo-container">
-                <div class="project-logo logo-large">
-                    <img src="Media/Icons/CinnaPaper/cinnapaper.png" alt="CinnaPaper Logo" loading="lazy" decoding="async" class="logo-image" style="width: 180px; height: auto;">
-                </div>
-                <h2>CinnaPaper</h2>
-                <p class="section-note">Fullscreen, click-through paper-like overlay for Linux Mint/Cinnamon that reduces eye strain.</p>
-            </div>
-            <div class="project-content">
-                <h3>Overview</h3>
-                <p>CinnaPaper is a lightweight accessibility-focused application that provides a fullscreen, paper-like overlay designed to reduce eye strain for Linux Mint/Cinnamon users. It features customizable color presets, scheduling, and multi-monitor support.</p>
-                <h3>Features</h3>
+
+        <section class="hero">
+            <span class="badge">Accessibility Tool</span>
+            <h1>CinnaPaper</h1>
+            <p>
+                CinnaPaper is a lightweight accessibility-focused application that provides a fullscreen, paper-like overlay designed to reduce eye strain for Linux Mint/Cinnamon users. It features customizable color presets, scheduling, and multi-monitor support.
+            </p>
+            <p>
+                It is designed for users who want to reduce eye fatigue during extended screen time, while maintaining a clean and distraction-free interface.
+            </p>
+        </section>
+
+        <section class="grid">
+            <article class="panel">
+                <h2>What it does</h2>
                 <ul>
                     <li>Click-through overlay for seamless workflow</li>
                     <li>Customizable color presets and scheduling</li>
                     <li>Multi-monitor support with per-display configuration</li>
                     <li>Accessibility-focused design to reduce eye fatigue</li>
                 </ul>
-                <h3>Tech Stack</h3>
-                <p>Built with HTML5, CSS3, and JavaScript, CinnaPaper leverages the native desktop environment of Linux Mint/Cinnamon to provide a non-intrusive user experience.</p>
-                <h3>Screenshots</h3>
-<div class="media-grid">
-    <article class="media-card">
-        <img src="Media/Pictures/CinnaPaper/CinnaPaperSC1.png" alt="CinnaPaper Screenshot 1" loading="lazy" decoding="async">
-        <div class="media-info">
-            <h4>Screenshot 1</h4>
-        </div>
-    </article>
-    <article class="media-card">
-        <img src="Media/Pictures/CinnaPaper/CinnaPaperSC2.png" alt="CinnaPaper Screenshot 2" loading="lazy" decoding="async">
-        <div class="media-info">
-            <h4>Screenshot 2</h4>
-        </div>
-    </article>
-    <article class="media-card">
-        <img src="Media/Pictures/CinnaPaper/CinnaPaperSC3.png" alt="CinnaPaper Screenshot 3" loading="lazy" decoding="async">
-        <div class="media-info">
-            <h4>Screenshot 3</h4>
-        </div>
-    </article>
-<article class="media-card video-large">
-    <video controls muted loop playsinline preload="none" poster="Media/Pictures/CinnaPaper/video-poster.webp" class="video-element" style="width: 100%; height: auto;">
-        <source src="Media/Videos/CinnaPaper/CinnaPapermovie.mp4" type="video/mp4">
-    </video>
-    <div class="media-info">
-        <h4>Video Example</h4>
-    </div>
-                <div class="project-actions">
-                    <a class="btn btn-main" href="https://github.com/Hexoden/cinnapaper">GitHub Repository</a>
-                    <a class="btn btn-alt" href="#contact">Contact</a>
-                </div>
-            </div>
+            </article>
+
+            <aside class="panel">
+                <h2>Tech Stack</h2>
+                <ul>
+                    <li>HTML5, CSS3, JavaScript</li>
+                    <li>Responsive design</li>
+                    <li>Accessibility features</li>
+                    <li>Multi-monitor support</li>
+                </ul>
+            </aside>
+        </section>
+
+        <section class="screens">
+            <figure>
+                <img class="js-enlarge" src="Media/Pictures/CinnaPaper/CinnaPaperSC1.png" alt="CinnaPaper Screenshot 1" loading="lazy" decoding="async">
+                <figcaption>Screenshot 1</figcaption>
+            </figure>
+            <figure>
+                <img class="js-enlarge" src="Media/Pictures/CinnaPaper/CinnaPaperSC2.png" alt="CinnaPaper Screenshot 2" loading="lazy" decoding="async">
+                <figcaption>Screenshot 2</figcaption>
+            </figure>
+            <figure>
+                <img class="js-enlarge" src="Media/Pictures/CinnaPaper/CinnaPaperSC3.png" alt="CinnaPaper Screenshot 3" loading="lazy" decoding="async">
+                <figcaption>Screenshot 3</figcaption>
+            </figure>
+            <figure class="video-large">
+                <video controls muted loop playsinline preload="none" poster="Media/Pictures/CinnaPaper/cinnapaper.png">
+                    <source src="Media/Videos/CinnaPaper/CinnaPapermovie.mp4" type="video/mp4">
+                </video>
+                <figcaption>Video Example</figcaption>
+            </figure>
         </section>
     </main>
-    <footer>
-        <p>Hexoden portfolio site. Built as a static single-page site for GitHub Pages hosting.</p>
-    </footer>
-    <script src="code-snippets.js"></script>
-    <script src="main.js"></script>
+
+    <div class="image-modal" id="image-modal" aria-hidden="true">
+        <button class="image-modal-close" id="image-modal-close" type="button" aria-label="Close enlarged image">Close</button>
+        <img id="image-modal-img" src="" alt="">
+    </div>
+
+    <script>
+        const codeOverlay = document.querySelector(".code-overlay");
+        const codeSnippets = [
+            "Enable overlay",
+            "Toggle auto schedule",
+            "Uninstall",
+            "Quit",
+            "Adjust intensity",
+            "Set schedule hours",
+            "Change color theme",
+            "Configure multi-monitor"
+        ];
+
+        const maxCodeLines = window.matchMedia("(max-width: 720px)").matches ? 8 : 12;
+        let activeCodeLines = 0;
+
+        function randomBetween(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function updateCodeOverlayStrength() {
+            if (!codeOverlay) {
+                return;
+            }
+
+            const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+            const progress = Math.min(window.scrollY / maxScroll, 1);
+            const strength = 0.9 - progress * 0.45;
+            codeOverlay.style.opacity = strength.toFixed(2);
+        }
+
+        function spawnCodeLine(zone) {
+            if (!codeOverlay) {
+                return;
+            }
+
+            const line = document.createElement("span");
+            const snippet = codeSnippets[randomBetween(0, codeSnippets.length - 1)];
+            const minTop = zone?.minTop ?? 6;
+            const maxTop = zone?.maxTop ?? 92;
+            const minLeft = zone?.minLeft ?? 4;
+            const maxLeft = zone?.maxLeft ?? 82;
+
+            line.className = "code-line";
+            line.style.top = randomBetween(minTop, maxTop) + "vh";
+            line.style.left = randomBetween(minLeft, maxLeft) + "vw";
+            line.textContent = "";
+            codeOverlay.appendChild(line);
+            activeCodeLines += 1;
+
+            requestAnimationFrame(() => line.classList.add("visible"));
+
+            let idx = 0;
+            const typingSpeed = randomBetween(24, 62);
+            const typeTimer = window.setInterval(() => {
+                idx += 1;
+                line.textContent = snippet.slice(0, idx);
+
+                if (idx >= snippet.length) {
+                    window.clearInterval(typeTimer);
+                    const holdMs = randomBetween(700, 2200);
+                    window.setTimeout(() => {
+                        line.classList.add("fading");
+                        window.setTimeout(() => {
+                            line.remove();
+                            activeCodeLines = Math.max(0, activeCodeLines - 1);
+                        }, 420);
+                    }, holdMs);
+                }
+            }, typingSpeed);
+        }
+
+        function scheduleCodeLine() {
+            const nextDelay = randomBetween(320, 1500);
+            window.setTimeout(() => {
+                if (activeCodeLines < maxCodeLines) {
+                    spawnCodeLine();
+                }
+                scheduleCodeLine();
+            }, nextDelay);
+        }
+
+        function scheduleBurst() {
+            const burstDelay = randomBetween(4500, 10000);
+            window.setTimeout(() => {
+                if (activeCodeLines < maxCodeLines) {
+                    const burstSize = randomBetween(3, 4);
+                    const zone = { minTop: 10, maxTop: 60, minLeft: 8, maxLeft: 86 };
+                    for (let i = 0; i < burstSize; i += 1) {
+                        window.setTimeout(() => {
+                            if (activeCodeLines < maxCodeLines) {
+                                spawnCodeLine(zone);
+                            }
+                        }, i * randomBetween(120, 240));
+                    }
+                }
+                scheduleBurst();
+            }, burstDelay);
+        }
+
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            updateCodeOverlayStrength();
+            window.addEventListener("scroll", updateCodeOverlayStrength, { passive: true });
+            window.addEventListener("resize", updateCodeOverlayStrength);
+            scheduleCodeLine();
+            scheduleBurst();
+        }
+
+        const imageModal = document.getElementById("image-modal");
+        const imageModalImg = document.getElementById("image-modal-img");
+        const imageModalClose = document.getElementById("image-modal-close");
+
+        function openImageModal(src, alt) {
+            if (!imageModal || !imageModalImg) {
+                return;
+            }
+
+            imageModalImg.src = src;
+            imageModalImg.alt = alt;
+            imageModal.classList.add("open");
+            imageModal.setAttribute("aria-hidden", "false");
+        }
+
+        function closeImageModal() {
+            if (!imageModal || !imageModalImg) {
+                return;
+            }
+
+            imageModal.classList.remove("open");
+            imageModal.setAttribute("aria-hidden", "true");
+            imageModalImg.src = "";
+        }
+
+        document.querySelectorAll(".js-enlarge").forEach((img) => {
+            img.addEventListener("click", () => {
+                const src = img.currentSrc || img.src;
+                openImageModal(src, img.alt || "Enlarged screenshot");
+            });
+        });
+
+        imageModalClose?.addEventListener("click", closeImageModal);
+        imageModal?.addEventListener("click", (event) => {
+            if (event.target === imageModal) {
+                closeImageModal();
+            }
+        });
+
+        window.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && imageModal?.classList.contains("open")) {
+                closeImageModal();
+            }
+        });
+
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("./sw.js").catch(() => {});
+            });
+        }
+    </script>
 </body>
 </html>
