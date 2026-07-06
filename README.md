@@ -33,7 +33,7 @@ Static portfolio site for Hexoden.dev.
 Use any static server from the repo root. For example:
 
 ```powershell
-c:/Users/Hayde/Documents/Hexoden-Portfolio/.venv/Scripts/python.exe -m http.server 8080
+c:/PATH .venv/Scripts/python.exe -m http.server 8080
 ```
 
 Open `http://localhost:8080/index.html`.
